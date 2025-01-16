@@ -19,7 +19,7 @@ public class ApiService {
             let jsonData = try JSONSerialization.data(withJSONObject: body)
             request.httpBody = jsonData
 
-            URLSession.shared.dataTask(with: request) { _, response, error in
+            URLSession.shared.dataTask(with: request) { data, response, error in
                 if let error = error {
                     DispatchQueue.main.async {
                         print(error)
@@ -34,9 +34,11 @@ public class ApiService {
                     }
                     return
                 }
-                print(httpResponse.statusCode)
                 DispatchQueue.main.async {
-                    print(error)
+                    if(data != nil){
+                        let json = try? JSON(data: data!)
+                        print(json)
+                    }
                 }
             }.resume()
         } catch {
