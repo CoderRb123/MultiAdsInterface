@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import KeychainSwift
 
 
 class DeviceMethods {
@@ -15,16 +16,17 @@ class DeviceMethods {
    
     func getDevicePublicKey()-> String {
         let uuid = UUID().uuidString
-        let token : String? =  KeyChain.getToken(key: "device_public_key")
+        let keychain = KeychainSwift()
+
+        let token : String? =  keychain.get("device_public_key")
         if(token != nil) {
             print("MultiAds Interface Token Founded:")
-
             return token ?? uuid
         }else{
             
             print("MultiAds Interface Token Null:")
 
-            KeyChain.insertToken(key: uuid,data: "device_public_key")
+            keychain.set(uuid, forKey: "device_public_key")
             
             return uuid
         }

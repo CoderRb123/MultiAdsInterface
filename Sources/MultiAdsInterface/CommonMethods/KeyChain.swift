@@ -9,32 +9,40 @@ import Security
 import Foundation
 
 class KeyChain {
-    static func insertToken(key: String, data: String) -> OSStatus {
+    
+    static func insertToken(_ data: Data, service: String, account: String) {
+        
+        // Create query
         let query = [
-            kSecClass as String       : kSecClassGenericPassword as String,
-            kSecAttrAccount as String : key,
-            kSecValueData as String   : data ] as [String : Any]
-
-        SecItemDelete(query as CFDictionary)
-
-        return SecItemAdd(query as CFDictionary, nil)
+            kSecValueData: data,
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: service,
+            kSecAttrAccount: account,
+        ] as CFDictionary
+        
+        // Add data in query to keychain
+        let status = SecItemAdd(query, nil)
+        
+        if status != errSecSuccess {
+            // Print out the error
+            print("Error: \(status)")
+        }
+    }
+  
+    
+    static func getToken(service: String, account: String) -> Data? {
+        
+        let query = [
+            kSecAttrService: service,
+            kSecAttrAccount: account,
+            kSecClass: kSecClassGenericPassword,
+            kSecReturnData: true
+        ] as CFDictionary
+        
+        var result: AnyObject?
+        SecItemCopyMatching(query, &result)
+        
+        return (result as? Data)
     }
     
-    static func getToken(key: String) -> String? {
-       let query = [
-           kSecClass as String       : kSecClassGenericPassword,
-           kSecAttrAccount as String : key,
-           kSecReturnData as String  : kCFBooleanTrue ?? false,
-           kSecMatchLimit as String  : kSecMatchLimitOne ] as [String : Any]
-
-       var dataTypeRef: AnyObject? = nil
-
-       let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
-
-       if status == noErr {
-           return dataTypeRef as! String?
-       } else {
-           return nil
-       }
-   }
 }
