@@ -18,16 +18,20 @@ class DeviceMethods {
         do {
             let token : String? = try KeyChain.getToken(identifier: "device_public_key")
             if(token != nil) {
-                
+                print("MultiAds Interface Token Founded:")
+
                 return token ?? uuid
+            }else{
+                
+                print("MultiAds Interface Token Null:")
+
+                try KeyChain.insertToken(uuid,identifier: "device_public_key")
+                
+                return uuid
             }
-           
-            
-            try KeyChain.insertToken(uuid,identifier: "device_public_key")
-            
-            return uuid
-            
+  
         } catch {
+            print("MultiAds Interface Error: \(error.localizedDescription)")
             return uuid
            
         }
