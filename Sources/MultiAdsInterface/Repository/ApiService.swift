@@ -26,12 +26,15 @@ public class ApiService {
                     }
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201 else {
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201
+                
+                else {
                     DispatchQueue.main.async {
                         print(error)
                     }
                     return
                 }
+                print(httpResponse.statusCode)
                 DispatchQueue.main.async {
                     print(error)
                 }
