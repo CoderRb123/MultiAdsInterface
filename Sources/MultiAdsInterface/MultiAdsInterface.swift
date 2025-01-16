@@ -1,11 +1,3 @@
 
-class MultiAdsInterface {
-    
-    
-    
-    func sample() {
-        print("Working")
-    }
-}
 
-
+public enum MultiAdsInterface {}
