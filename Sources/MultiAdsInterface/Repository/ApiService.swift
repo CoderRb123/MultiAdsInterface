@@ -9,7 +9,7 @@ import Foundation
 import SwiftyJSON
 
 public class ApiService {
-     func registerDevice(body: [String: String]) {
+    func registerDevice(body: [String: String],onComplete: @escaping (String?) -> Void,onError: @escaping (String) -> Void) {
         guard let url = URL(string: device_register_url) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -19,17 +19,22 @@ public class ApiService {
             let jsonData = try JSONSerialization.data(withJSONObject: body)
             request.httpBody = jsonData
 
-            URLSession.shared.dataTask(with: request) { data, response, error in
+          let deviceId =   URLSession.shared.dataTask(with: request) { data, response, error in
                 if let error = error {
                     DispatchQueue.main.async {
-                        print(error)
+                        onError(error.localizedDescription)
                     }
                     return
                 }
                 DispatchQueue.main.async {
                     if(data != nil){
                         let json = try? JSON(data: data!)
-                        print(json ?? "Default")
+                        if(json?["success"].boolValue ?? false){
+                            print("Multi Ads Response Success")
+                            let deviceId =  json!["data"]["device_id"].string
+                            onComplete(deviceId)
+                        }
+                      
                     }else{
                         print("Multi Ads Response is nil")
                     }
@@ -37,7 +42,7 @@ public class ApiService {
             }.resume()
         } catch {
             DispatchQueue.main.async {
-                print(error)
+                onError(error.localizedDescription)
             }
         }
     }
