@@ -26,18 +26,12 @@ public class ApiService {
                     }
                     return
                 }
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201
-                
-                else {
-                    DispatchQueue.main.async {
-                       
-                    }
-                    return
-                }
                 DispatchQueue.main.async {
                     if(data != nil){
                         let json = try? JSON(data: data!)
                         print(json ?? "Default")
+                    }else{
+                        print("Multi Ads Response is nil")
                     }
                 }
             }.resume()
