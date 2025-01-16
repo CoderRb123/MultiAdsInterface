@@ -21,18 +21,25 @@ public class ApiService {
 
             URLSession.shared.dataTask(with: request) { _, response, error in
                 if let error = error {
-                    DispatchQueue.main.async {}
+                    DispatchQueue.main.async {
+                        print(error)
+                    }
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201 else {
                     DispatchQueue.main.async {
+                        print(error)
                     }
                     return
                 }
-                DispatchQueue.main.async {}
+                DispatchQueue.main.async {
+                    print(error)
+                }
             }.resume()
         } catch {
-            DispatchQueue.main.async {}
+            DispatchQueue.main.async {
+                print(error)
+            }
         }
     }
 }
