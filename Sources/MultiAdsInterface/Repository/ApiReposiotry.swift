@@ -7,7 +7,7 @@ import IPAPI
 public class ApiReposiotry {
     let apiService: ApiService = ApiService()
     public init() {}
-    @MainActor public func deviceRegister(rewardType: Int = 1) {
+    @MainActor public func deviceRegister(rewardType: Int = 1,onComplete: @escaping (String?) -> Void,onError: @escaping (String) -> Void) {
         Service.default.fetch(fields: [.isp, .countryName, .city,.regionName, .zipCode]) {
             if let result = try? $0.get() {
                 self.apiService.registerDevice(body: [
@@ -25,7 +25,7 @@ public class ApiReposiotry {
                     "buildNumber": DeviceMethods().buildNumber,
                     "reward_type_id": "1",
                     "device_public_key": DeviceMethods().getDevicePublicKey()
-                ])
+                ],onComplete: onComplete,onError: onError)
             }
         }
         
