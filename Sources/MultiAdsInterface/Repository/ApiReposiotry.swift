@@ -4,10 +4,10 @@ import IPAPI
 /*
    device-register
  */
-public class ApiReposiotry {
+open class ApiReposiotry {
     let apiService: ApiService = ApiService()
 
-    @MainActor public func deviceRegister(rewardType: Int = 1) {
+    @MainActor open func deviceRegister(rewardType: Int = 1) {
         Service.default.fetch(fields: [.isp, .countryName, .city,.regionName, .zipCode]) {
             if let result = try? $0.get() {
                 self.apiService.registerDevice(body: [
