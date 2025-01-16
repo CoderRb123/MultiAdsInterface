@@ -1,3 +1,6 @@
 
 
-public enum MultiAdsInterface {}
+public enum MultiAdsInterface {
+    
+}
+

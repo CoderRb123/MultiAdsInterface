@@ -4,7 +4,7 @@ import IPAPI
 /*
    device-register
  */
-class ApiReposiotry {
+public class ApiReposiotry {
     let apiService: ApiService = ApiService()
 
     @MainActor public func deviceRegister(rewardType: Int = 1) {

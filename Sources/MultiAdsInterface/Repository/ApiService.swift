@@ -8,8 +8,8 @@
 import Foundation
 import SwiftyJSON
 
-class ApiService {
-    func registerDevice(body: [String: String]) {
+public class ApiService {
+    public func registerDevice(body: [String: String]) {
         guard let url = URL(string: device_register_url) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
