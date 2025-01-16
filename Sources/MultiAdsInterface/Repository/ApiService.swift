@@ -30,14 +30,14 @@ public class ApiService {
                 
                 else {
                     DispatchQueue.main.async {
-                        print(error)
+                       
                     }
                     return
                 }
                 DispatchQueue.main.async {
                     if(data != nil){
                         let json = try? JSON(data: data!)
-                        print(json)
+                        print(json ?? "Default")
                     }
                 }
             }.resume()
