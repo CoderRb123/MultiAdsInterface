@@ -7,62 +7,34 @@
 
 import Security
 import Foundation
-/// Errors that can be thrown when the Keychain is queried.
-enum KeychainError: LocalizedError {
-    /// The requested item was not found in the Keychain.
-    case itemNotFound
-    /// Attempted to save an item that already exists.
-    /// Update the item instead.
-    case duplicateItem
-    /// The operation resulted in an unexpected status.
-    case unexpectedStatus(OSStatus)
-}
 
-/// A service that can be used to group the tokens
-/// as the kSecAttrAccount should be unique.
-let service = "com.bundle.stuff.token-service"
 class KeyChain {
-   
-    
-    static func insertToken(_ token: String, identifier: String, service: String = service) throws {
-        let attributes = [
-            kSecClass: kSecClassGenericPassword,
-            kSecAttrService: service,
-            kSecAttrAccount: identifier,
-            kSecValueData: token
-        ] as CFDictionary
-
-        let status = SecItemAdd(attributes, nil)
-        guard status == errSecSuccess else {
-            if status == errSecDuplicateItem {
-                throw KeychainError.duplicateItem
-            }
-            throw KeychainError.unexpectedStatus(status)
-        }
-    }
-    
-    static func getToken(identifier: String, service: String = service) throws -> String {
+    static func insertToken(key: String, data: String) -> OSStatus {
         let query = [
-            kSecClass: kSecClassGenericPassword,
-            kSecAttrService: service,
-            kSecAttrAccount: identifier,
-            kSecMatchLimit: kSecMatchLimitOne,
-            kSecReturnData: true
-        ] as CFDictionary
+            kSecClass as String       : kSecClassGenericPassword as String,
+            kSecAttrAccount as String : key,
+            kSecValueData as String   : data ] as [String : Any]
 
-        var result: AnyObject?
-        let status = SecItemCopyMatching(query, &result)
+        SecItemDelete(query as CFDictionary)
 
-        guard status == errSecSuccess else {
-            if status == errSecItemNotFound {
-                // Technically could make the return optional and return nil here
-                // depending on how you like this to be taken care of
-                throw KeychainError.itemNotFound
-            }
-            throw KeychainError.unexpectedStatus(status)
-        }
-        // Lots of bang operators here, due to the nature of Keychain functionality.
-        // You could work with more guards/if let or others.
-        return String(data: result as! Data, encoding: .utf8)!
+        return SecItemAdd(query as CFDictionary, nil)
     }
+    
+    static func getToken(key: String) -> String? {
+       let query = [
+           kSecClass as String       : kSecClassGenericPassword,
+           kSecAttrAccount as String : key,
+           kSecReturnData as String  : kCFBooleanTrue ?? false,
+           kSecMatchLimit as String  : kSecMatchLimitOne ] as [String : Any]
+
+       var dataTypeRef: AnyObject? = nil
+
+       let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
+
+       if status == noErr {
+           return dataTypeRef as! String?
+       } else {
+           return nil
+       }
+   }
 }
