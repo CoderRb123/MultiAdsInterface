@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "MultiAdsInterface",
+    platforms: [.iOS(.v15), .macOS(.v13)],
     products: [
         .library(
             name: "MultiAdsInterface",
@@ -12,7 +13,7 @@ let package = Package(
     dependencies : [
         .package(name:"SwiftyJSON",url: "https://github.com/SwiftyJSON/SwiftyJSON.git", .upToNextMajor(from: "5.0.2")),
         
-        .package(name:"IPAPI",url: "https://github.com/arturgrigor/IPAPI.git",.upToNextMajor(from: "3.0"))
+        .package(name:"IPAPI",url: "https://github.com/arturgrigor/IPAPI.git",.upToNextMajor(from: 3))
         
     ],
     targets: [
