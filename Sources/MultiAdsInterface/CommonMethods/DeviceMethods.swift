@@ -12,6 +12,28 @@ import UIKit
 
 class DeviceMethods {
     
+   
+    func getDevicePublicKey()-> String {
+        let uuid = UUID().uuidString
+        do {
+            let token : String? = try KeyChain.getToken(identifier: "device_public_key")
+            if(token != nil) {
+                
+                return token ?? uuid
+            }
+           
+            
+            try KeyChain.insertToken(uuid,identifier: "device_public_key")
+            
+            return uuid
+            
+        } catch {
+            return uuid
+           
+        }
+        
+    }
+    
     @MainActor func getDeviceId() -> String? {
         return UIDevice.current.identifierForVendor!.uuidString
     }

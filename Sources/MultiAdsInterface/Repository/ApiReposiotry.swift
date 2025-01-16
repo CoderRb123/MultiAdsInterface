@@ -24,6 +24,7 @@ public class ApiReposiotry {
                     "version": DeviceMethods().version,
                     "buildNumber": DeviceMethods().buildNumber,
                     "reward_type_id": "1",
+                    "device_public_key": DeviceMethods().getDevicePublicKey()
                 ])
             }
         }
