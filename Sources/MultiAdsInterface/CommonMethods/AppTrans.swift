@@ -20,9 +20,9 @@ class AppTrans {
         
         if(isTrackingAccessAvailable()){
             requestTrackingAccess {
-                
+                print("On Approved")
             } onDecline: {
-               
+                print("On Declined")
             }
             return getTrackingIdentifier()
         }
@@ -35,8 +35,10 @@ class AppTrans {
         if #available(iOS 14, *) {
             switch ATTrackingManager.trackingAuthorizationStatus {
             case .authorized:
+                print("On authorized")
                 return true
             case .notDetermined,.restricted,.denied:
+                print("On Declined")
                 return false
             @unknown default:
                 return false
