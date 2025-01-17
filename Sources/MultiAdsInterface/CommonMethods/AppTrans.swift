@@ -13,14 +13,10 @@ class AppTrans {
     }
 
     public func getTrackingIdentifierWithRequest() -> UUID? {
-        if isTrackingAccessAvailable() {
-            requestTrackingAccess {
-                print("On Approved")
-            }
-            return getTrackingIdentifier()
+        requestTrackingAccess {
+            print("On Approved")
         }
-
-        return nil
+        return getTrackingIdentifier()
     }
 
     public func isTrackingAccessAvailable() -> Bool {
