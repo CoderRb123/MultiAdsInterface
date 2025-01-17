@@ -13,7 +13,7 @@ public class MultiAdsInterface {
    
     
     
-    @MainActor  func setUp() {
+    @MainActor public func setUp() {
         
         let identifier:UUID? =  AppTrans().getTrackingIdentifierWithRequest()
         if(identifier != nil){
