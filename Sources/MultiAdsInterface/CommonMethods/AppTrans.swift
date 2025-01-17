@@ -45,23 +45,23 @@ class AppTrans {
     public func requestTrackingAccess(onGranted: (() -> Void)? = nil, onDecline: (() -> Void)? = nil) {
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { status in
-
                 switch status {
                 case .authorized:
                     print("Log: ATTrackingManager request successful")
                     onGranted?()
                 case .denied:
                     print("Denied")
-                    onDecline?()
+                   
                 case .notDetermined:
                     print("Not Determined")
-                    onDecline?()
+                  
                 case .restricted:
                     print("Restricted")
-                    onDecline?()
+                    
+                
                 @unknown default:
                     print("Unknown")
-                    onDecline?()
+                  
                     break
                 }
             }
