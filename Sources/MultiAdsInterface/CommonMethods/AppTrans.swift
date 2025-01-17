@@ -5,20 +5,15 @@
 //  Created by Khusnud Zehra on 17/01/25.
 //
 
-import AppTrackingTransparency
 import AdSupport
-
+import AppTrackingTransparency
 
 class AppTrans {
-    
-    public init () {
-        
+    public init() {
     }
-    
-    
+
     public func getTrackingIdentifierWithRequest() -> UUID? {
-        
-        if(isTrackingAccessAvailable()){
+        if isTrackingAccessAvailable() {
             requestTrackingAccess {
                 print("On Approved")
             } onDecline: {
@@ -26,18 +21,17 @@ class AppTrans {
             }
             return getTrackingIdentifier()
         }
-        
-        
-        return nil;
+
+        return nil
     }
-    
+
     public func isTrackingAccessAvailable() -> Bool {
         if #available(iOS 14, *) {
             switch ATTrackingManager.trackingAuthorizationStatus {
             case .authorized:
                 print("On authorized")
                 return true
-            case .notDetermined,.restricted,.denied:
+            case .notDetermined, .restricted, .denied:
                 print("On Declined")
                 return false
             @unknown default:
@@ -46,34 +40,36 @@ class AppTrans {
         } else {
             return false
         }
-        
     }
-    
-    
-    public func requestTrackingAccess(onGranted: (() -> Void)? = nil,onDecline: (() -> Void)? = nil) -> Void {
+
+    public func requestTrackingAccess(onGranted: (() -> Void)? = nil, onDecline: (() -> Void)? = nil) {
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { status in
-                
-                print(status.rawValue)
+
                 switch status {
                 case .authorized:
                     print("Log: ATTrackingManager request successful")
                     onGranted?()
-                case .denied,
-                        .notDetermined,
-                        .restricted:
+                case .denied:
+                    print("Denied")
                     onDecline?()
-                    break
+                case .notDetermined:
+                    print("Not Determined")
+                    onDecline?()
+                case .restricted:
+                    print("Restricted")
+                    onDecline?()
                 @unknown default:
+                    print("Unknown")
+                    onDecline?()
                     break
                 }
             }
         }
     }
-    
+
     public func getTrackingIdentifier() -> UUID? {
-        if(self.isTrackingAccessAvailable())
-        {
+        if isTrackingAccessAvailable() {
             return ASIdentifierManager.shared().advertisingIdentifier
         }
         return nil
