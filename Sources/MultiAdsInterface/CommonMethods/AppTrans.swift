@@ -13,9 +13,11 @@ class AppTrans {
     }
 
     public func getTrackingIdentifierWithRequest() -> UUID? {
-        requestTrackingAccess {
-            print("On Approved")
-        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.requestTrackingAccess {
+                print("On Approved")
+            }
+           }
         return getTrackingIdentifier()
     }
 
