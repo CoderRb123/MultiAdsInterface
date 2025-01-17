@@ -13,12 +13,11 @@ class AppTrans {
     }
 
     public func getTrackingIdentifierWithRequest() -> UUID? {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.requestTrackingAccess {
-                print("On Approved")
-            }
-           }
-        return getTrackingIdentifier()
+        var id: UUID?
+        self.requestTrackingAccess {
+            id =  self.getTrackingIdentifier()
+        }
+        return id
     }
 
     public func isTrackingAccessAvailable() -> Bool {
@@ -27,8 +26,14 @@ class AppTrans {
             case .authorized:
                 print("On authorized")
                 return true
-            case .notDetermined, .restricted, .denied:
-                print("On Declined")
+            case .denied:
+                print("Denied")
+                return false
+            case .notDetermined:
+                print("Not Determined")
+                return false
+            case .restricted:
+                print("Restricted")
                 return false
             @unknown default:
                 return false
