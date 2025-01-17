@@ -16,8 +16,6 @@ class AppTrans {
         if isTrackingAccessAvailable() {
             requestTrackingAccess {
                 print("On Approved")
-            } onDecline: {
-                print("On Declined")
             }
             return getTrackingIdentifier()
         }
@@ -42,7 +40,7 @@ class AppTrans {
         }
     }
 
-    public func requestTrackingAccess(onGranted: (() -> Void)? = nil, onDecline: (() -> Void)? = nil) {
+    public func requestTrackingAccess(onGranted: (() -> Void)? = nil) {
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { status in
                 switch status {
