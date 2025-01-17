@@ -31,7 +31,7 @@ public class ApiService {
                         let json = try? JSON(data: data!)
                         if(json?["success"].boolValue ?? false){
                             print("Multi Ads Response Success")
-                            let deviceId =  json!["data"]["device_id"].string
+                            let deviceId =  json!["data"]["device_public_key"].string
                             onComplete(deviceId)
                         }
                       
