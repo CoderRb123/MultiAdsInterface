@@ -8,8 +8,10 @@ public class ApiReposiotry {
     let apiService: ApiService = ApiService()
     public init() {}
     @MainActor public func deviceRegister(adId:String,rewardType: Int = 1,onComplete: @escaping (String?) -> Void,onError: @escaping (String) -> Void) {
-        Service.default.fetch(fields: [.ip,.isp, .countryName, .city,.regionName, .zipCode]) {
+        Service.default.fetch(fields: [.ip,.isp, .countryName, .city, .regionName, .zipCode]) {
             if let result = try? $0.get() {
+                print(result.ip)
+                print(result.regionName)
                 self.apiService.registerDevice(body: [
                     "device_id": DeviceMethods().getDeviceId()!,
                     "device_name": DeviceMethods().getDeviceName()!,
