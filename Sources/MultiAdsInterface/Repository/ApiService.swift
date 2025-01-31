@@ -165,7 +165,6 @@ public class ApiService {
                       let json = try? JSON(data: data!)
                       if(json?["success"].boolValue ?? false){
                           print("NormalReward:[json]->Success[✅] \(String(describing: json))");
-                          print(json?["data"].dictionaryValue)
                           onComplete(json?["data"])
                       }else{
                           print("NormalReward 5 Completed[✅] \(String(describing: json))");
@@ -174,6 +173,47 @@ public class ApiService {
                       print("NormalReward 6 Completed[✅]");
 
                       print("NormalReward:[_fetchConfig]->Error[❌]");
+                  }
+              }
+          }.resume()
+    }
+    
+    
+    func getStatusGroupedReward(rewardType: String,onComplete: @escaping (_ data:JSON?) -> Void,onError: @escaping (String) -> Void) {
+        
+        
+        let device_public_key: String = DeviceMethods().getDevicePublicKey()
+       
+        guard let url = URL(string: reward_normal_url + device_public_key + "/" + rewardType + "/categorized" ) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(device_public_key, forHTTPHeaderField: "device-public-key")
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            print("Status Grouped 1 Completed[✅]");
+            if let error = error {
+                  DispatchQueue.main.async {
+                      print("MultiAds:[_fetchConfig]->Error[❌] : \(error.localizedDescription)");
+                      onError(error.localizedDescription)
+                  }
+                  return
+              }
+            print("Status Grouped 2 Completed[✅]");
+              DispatchQueue.main.async {
+                  print("Status Grouped 3 Completed[✅]");
+                  if(data != nil){
+                      print("Status Grouped 4 Completed[✅]");
+                      let json = try? JSON(data: data!)
+                      if(json?["success"].boolValue ?? false){
+                          print("Status Grouped:[json]->Success[✅] \(String(describing: json))");
+                          onComplete(json?["data"])
+                      }else{
+                          print("Status Grouped 5 Completed[✅] \(String(describing: json))");
+                      }
+                  }else{
+                      print("Status Grouped 6 Completed[✅]");
+
+                      print("Status Grouped:[_fetchConfig]->Error[❌]");
                   }
               }
           }.resume()

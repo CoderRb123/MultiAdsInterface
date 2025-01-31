@@ -39,5 +39,17 @@ public class RewardReposiotry {
 
     }
     
+    public func getStatusGroupedReward(rewardType:String,onComplete: @escaping (_ data:[JSON?]) -> Void,onError: @escaping (String) -> Void){
+        
+         apiService.getStatusGroupedReward(rewardType: rewardType) { data in
+             onComplete( data?.arrayValue ?? [])
+        } onError: { ErrorString in
+          
+            onError(ErrorString)
+            print("⚠️ Error : \(ErrorString)")
+        }
+
+    }
+    
     
 }
