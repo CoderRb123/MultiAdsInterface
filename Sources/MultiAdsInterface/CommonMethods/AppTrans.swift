@@ -15,9 +15,9 @@ class AppTrans {
     }
 
     public func getTrackingIdentifierWithRequest() -> UUID? {
-//        trackingConsentFlow {
-//            print("✅ UMP FORM COMPLETED")
-//        }
+        trackingConsentFlow {
+            print("✅ UMP FORM COMPLETED")
+        }
         var id: UUID?
         self.requestTrackingAccess {
             id =  self.getTrackingIdentifier()
