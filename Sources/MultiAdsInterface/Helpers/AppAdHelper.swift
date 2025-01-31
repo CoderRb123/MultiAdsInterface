@@ -8,7 +8,7 @@
 import SwiftUI
 
 @available(iOS 13.0, *)
-struct AppAdHelper<Content: View>: View {
+public struct AppAdHelper<Content: View>: View {
     
     let content: () -> Content
     @State var notFirstTime: Bool = false
@@ -17,7 +17,7 @@ struct AppAdHelper<Content: View>: View {
         self.content = content
         self.registerAppParameters = registerAppParameters
     }
-    var body: some View {
+    public var body: some View {
         content().onAppear {
             if(!notFirstTime){
                 MultiAdsInterface().setUp(
