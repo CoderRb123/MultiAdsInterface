@@ -108,7 +108,7 @@ public class ApiService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(device_public_key, forHTTPHeaderField: "device-public-key")
         URLSession.shared.dataTask(with: request) { data, response, error in
-            print("Check 1 Completed[✅]");
+            print("NormalReward 1 Completed[✅]");
             if let error = error {
                   DispatchQueue.main.async {
                       print("MultiAds:[_fetchConfig]->Error[❌] : \(error.localizedDescription)");
@@ -116,22 +116,22 @@ public class ApiService {
                   }
                   return
               }
-            print("Check 2 Completed[✅]");
+            print("NormalReward 2 Completed[✅]");
               DispatchQueue.main.async {
-                  print("Check 3 Completed[✅]");
+                  print("NormalReward 3 Completed[✅]");
                   if(data != nil){
-                      print("Check 4 Completed[✅]");
+                      print("NormalReward 4 Completed[✅]");
                       let json = try? JSON(data: data!)
                       if(json?["success"].boolValue ?? false){
-                          print("MultiAds:[_fetchConfig]->Success[✅]");
+                          print("NormalReward:[json]->Success[✅] \(json)");
                           onComplete(json?["data"])
                       }else{
-                          print("Check 5 Completed[✅] \(String(describing: json))");
+                          print("NormalReward 5 Completed[✅] \(String(describing: json))");
                       }
                   }else{
-                      print("Check 6 Completed[✅]");
+                      print("NormalReward 6 Completed[✅]");
 
-                      print("MultiAds:[_fetchConfig]->Error[❌]");
+                      print("NormalReward:[_fetchConfig]->Error[❌]");
                   }
               }
           }.resume()
