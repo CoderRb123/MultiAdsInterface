@@ -248,7 +248,7 @@ public class ApiService {
                       let json = try? JSON(data: data!)
                       if(json?["success"].boolValue ?? false){
                           print("Reward Detail:[json]->Success[✅] \(String(describing: json))");
-                          onComplete(json?["data"])
+                          onComplete(json)
                       }else{
                           print("Reward Detail 5 Completed[✅] \(String(describing: json))");
                       }
