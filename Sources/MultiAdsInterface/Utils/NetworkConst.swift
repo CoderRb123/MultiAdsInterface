@@ -12,3 +12,4 @@
 let baseURL = "https://rbtechlab.in/MicroService/public/api/"
 let device_register_url = baseURL + "device-register"
 let get_config_url:String = baseURL + "config/"
+let reward_normal_url:String = baseURL + "reward/"

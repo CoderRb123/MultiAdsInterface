@@ -33,7 +33,7 @@ public class ApiService {
                         if(json?["success"].boolValue ?? false){
                             print("Multi Ads Response Success")
                             let deviceId =  json!["data"]["device_public_key"].string
-                            onComplete(deviceId)
+                            onComplete(deviceId ?? "")
                         }
                     }else{
                         print("Multi Ads Response is nil")
@@ -84,6 +84,49 @@ public class ApiService {
                           onComplete(json?["data"])
                       }else{
                           print("Check 5 Completed[✅] \(json)");
+                      }
+                  }else{
+                      print("Check 6 Completed[✅]");
+
+                      print("MultiAds:[_fetchConfig]->Error[❌]");
+                  }
+              }
+          }.resume()
+    }
+    
+    
+    
+    
+    func getNormalReward(rewardType: String,onComplete: @escaping (_ data:JSON?) -> Void,onError: @escaping (String) -> Void) {
+        
+        
+        let device_public_key: String = DeviceMethods().getDevicePublicKey()
+       
+        guard let url = URL(string: reward_normal_url + device_public_key + "/" + rewardType + "/normal" ) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(device_public_key, forHTTPHeaderField: "device-public-key")
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            print("Check 1 Completed[✅]");
+            if let error = error {
+                  DispatchQueue.main.async {
+                      print("MultiAds:[_fetchConfig]->Error[❌] : \(error.localizedDescription)");
+                      onError(error.localizedDescription)
+                  }
+                  return
+              }
+            print("Check 2 Completed[✅]");
+              DispatchQueue.main.async {
+                  print("Check 3 Completed[✅]");
+                  if(data != nil){
+                      print("Check 4 Completed[✅]");
+                      let json = try? JSON(data: data!)
+                      if(json?["success"].boolValue ?? false){
+                          print("MultiAds:[_fetchConfig]->Success[✅]");
+                          onComplete(json?["data"])
+                      }else{
+                          print("Check 5 Completed[✅] \(String(describing: json))");
                       }
                   }else{
                       print("Check 6 Completed[✅]");

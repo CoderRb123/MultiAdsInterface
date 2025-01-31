@@ -70,6 +70,8 @@ public class MultiAdsInterface {
        
     }
     
+    
+   
    
     @available(iOS 13.0.0, *)
     public func setupAdNetworks()  {
