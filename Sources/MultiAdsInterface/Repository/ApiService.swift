@@ -123,7 +123,49 @@ public class ApiService {
                       print("NormalReward 4 Completed[✅]");
                       let json = try? JSON(data: data!)
                       if(json?["success"].boolValue ?? false){
-                          print("NormalReward:[json]->Success[✅] \(json)");
+                          print("NormalReward:[json]->Success[✅] \(String(describing: json))");
+                          onComplete(json?["data"])
+                      }else{
+                          print("NormalReward 5 Completed[✅] \(String(describing: json))");
+                      }
+                  }else{
+                      print("NormalReward 6 Completed[✅]");
+
+                      print("NormalReward:[_fetchConfig]->Error[❌]");
+                  }
+              }
+          }.resume()
+    }
+    
+    
+    func getDateGroupedReward(rewardType: String,onComplete: @escaping (_ data:JSON?) -> Void,onError: @escaping (String) -> Void) {
+        
+        
+        let device_public_key: String = DeviceMethods().getDevicePublicKey()
+       
+        guard let url = URL(string: reward_normal_url + device_public_key + "/" + rewardType + "/grouped" ) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(device_public_key, forHTTPHeaderField: "device-public-key")
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            print("NormalReward 1 Completed[✅]");
+            if let error = error {
+                  DispatchQueue.main.async {
+                      print("MultiAds:[_fetchConfig]->Error[❌] : \(error.localizedDescription)");
+                      onError(error.localizedDescription)
+                  }
+                  return
+              }
+            print("NormalReward 2 Completed[✅]");
+              DispatchQueue.main.async {
+                  print("NormalReward 3 Completed[✅]");
+                  if(data != nil){
+                      print("NormalReward 4 Completed[✅]");
+                      let json = try? JSON(data: data!)
+                      if(json?["success"].boolValue ?? false){
+                          print("NormalReward:[json]->Success[✅] \(String(describing: json))");
+                          print(json?["data"].dictionaryValue)
                           onComplete(json?["data"])
                       }else{
                           print("NormalReward 5 Completed[✅] \(String(describing: json))");
