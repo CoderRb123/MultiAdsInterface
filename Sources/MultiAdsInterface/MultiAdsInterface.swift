@@ -67,6 +67,7 @@ public class MultiAdsInterface {
         }
         
         setupAdNetworks()
+        
        
     }
     
@@ -142,4 +143,18 @@ public extension View {
     func setup(registerAppParameters: RegisterAppParameters){
         MultiAdsInterface().setUp(registerAppParameters: registerAppParameters)
     }
+}
+@available(iOS 13.0, *)
+public var rootController: UIViewController? {
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+          let window = windowScene.windows.first else {
+        // Fallback for older iOS versions
+        return UIApplication.shared.windows.first?.rootViewController
+    }
+    
+    var root = window.rootViewController
+    while let presenter = root?.presentedViewController {
+        root = presenter
+    }
+    return root
 }

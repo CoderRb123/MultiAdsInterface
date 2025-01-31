@@ -7,12 +7,17 @@
 
 import AdSupport
 import AppTrackingTransparency
+import UserMessagingPlatform
 
+@available(iOS 13.0, *)
 class AppTrans {
     public init() {
     }
 
     public func getTrackingIdentifierWithRequest() -> UUID? {
+        trackingConsentFlow {
+            print("✅ UMP FORM COMPLETED")
+        }
         var id: UUID?
         self.requestTrackingAccess {
             id =  self.getTrackingIdentifier()
@@ -75,4 +80,54 @@ class AppTrans {
         }
         return nil
     }
+    
+    public func loadForm(_ completion: @escaping () -> Void) {
+        UMPConsentForm.load(completionHandler: { form, loadError in
+            if loadError != nil {
+                print("MYERROR #2 \(String(describing: loadError))")
+                completion()
+            } else {
+                print("CONSENT STATUS: \(UMPConsentInformation.sharedInstance.consentStatus)")
+                if UMPConsentInformation
+                    .sharedInstance.consentStatus == .required {
+                    
+                    if UMPConsentInformation
+                        .sharedInstance.consentStatus == .obtained {
+                        completion()
+                    } else {
+                        form?.present(from: rootController, completionHandler: { _ in
+                            completion()
+                        })
+                    }
+                }
+            }
+        })
+    }
+    
+    public func trackingConsentFlow(completion: @escaping () -> Void) {
+        let umpParams = UMPRequestParameters()
+        let debugSettings = UMPDebugSettings()
+        debugSettings.geography = UMPDebugGeography.EEA
+        umpParams.debugSettings = debugSettings
+        umpParams.tagForUnderAgeOfConsent = false
+
+        UMPConsentInformation
+            .sharedInstance
+            .requestConsentInfoUpdate(with: umpParams,
+             completionHandler: { error in
+             if error != nil {
+                print("MYERROR #1 \(String(describing: error))")
+                completion()
+               } else {
+                 let formStatus = UMPConsentInformation.sharedInstance.formStatus
+                 print("FORM STATUS: \(formStatus)")
+               if formStatus == .available {
+                   self.loadForm(completion)
+                 } else {
+                    completion()
+                 }
+            }
+        })
+    }
+
 }

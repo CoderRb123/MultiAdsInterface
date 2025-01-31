@@ -1,34 +1,42 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "IPAPI",
-        "repositoryURL": "https://github.com/arturgrigor/IPAPI.git",
-        "state": {
-          "branch": null,
-          "revision": "7394135f9162ab7127a5ebd94d48e797dc516414",
-          "version": "3.0.0"
-        }
-      },
-      {
-        "package": "KeychainSwift",
-        "repositoryURL": "https://github.com/evgenyneu/keychain-swift.git",
-        "state": {
-          "branch": null,
-          "revision": "5e1b02b6a9dac2a759a1d5dbc175c86bd192a608",
-          "version": "24.0.0"
-        }
-      },
-      {
-        "package": "SwiftyJSON",
-        "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON.git",
-        "state": {
-          "branch": null,
-          "revision": "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
-          "version": "5.0.2"
-        }
+  "originHash" : "08b2fa90468aa7ce2c12268214e40f2ec2856491815c9ef068217d61702128e1",
+  "pins" : [
+    {
+      "identity" : "ipapi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/arturgrigor/IPAPI.git",
+      "state" : {
+        "revision" : "7394135f9162ab7127a5ebd94d48e797dc516414",
+        "version" : "3.0.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "keychain-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/evgenyneu/keychain-swift.git",
+      "state" : {
+        "revision" : "5e1b02b6a9dac2a759a1d5dbc175c86bd192a608",
+        "version" : "24.0.0"
+      }
+    },
+    {
+      "identity" : "swift-package-manager-google-user-messaging-platform",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "708a282840c2171ee63bd93b87afa49fe507d70e"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
+      "state" : {
+        "revision" : "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
+        "version" : "5.0.2"
+      }
+    }
+  ],
+  "version" : 3
 }
