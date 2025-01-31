@@ -48,7 +48,7 @@ public class AdEngine {
             let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.google] != nil
             if(keyExists){
                 print("⚠️ [loadFromNumber] Google Reward Inter Key Exist")
-                ServerConfig.sharedInstance.loadAdNetwork![.google]?.loadRewardInter(adModuleCallBacks: adCallback)
+                ServerConfig.sharedInstance.loadAdNetwork![.google]?.loadAndShowRewardInter(adModuleCallBacks: adCallback)
                 return
              }
             print("⚠️ [loadFromNumber] Google Reward Inter Default Callback")
