@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "IPAPI",
+        "repositoryURL": "https://github.com/arturgrigor/IPAPI.git",
+        "state": {
+          "branch": null,
+          "revision": "7394135f9162ab7127a5ebd94d48e797dc516414",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "KeychainSwift",
+        "repositoryURL": "https://github.com/evgenyneu/keychain-swift.git",
+        "state": {
+          "branch": null,
+          "revision": "5e1b02b6a9dac2a759a1d5dbc175c86bd192a608",
+          "version": "24.0.0"
+        }
+      },
+      {
+        "package": "SwiftyJSON",
+        "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON.git",
+        "state": {
+          "branch": null,
+          "revision": "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
+          "version": "5.0.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
