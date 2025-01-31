@@ -13,7 +13,7 @@ public struct AppAdHelper<Content: View>: View {
     let content: () -> Content
     @State var notFirstTime: Bool = false
     let registerAppParameters:RegisterAppParameters
-    init(@ViewBuilder content: @escaping () -> Content,registerAppParameters: RegisterAppParameters) {
+    public init(@ViewBuilder content: @escaping () -> Content,registerAppParameters: RegisterAppParameters) {
         self.content = content
         self.registerAppParameters = registerAppParameters
     }
