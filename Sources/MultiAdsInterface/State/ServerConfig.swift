@@ -15,7 +15,7 @@ import SwiftUI
 
 
 public class ServerConfig {
-   static public let sharedInstance = ServerConfig()
+    static  public let sharedInstance = ServerConfig()
 
     public init() { }
 
