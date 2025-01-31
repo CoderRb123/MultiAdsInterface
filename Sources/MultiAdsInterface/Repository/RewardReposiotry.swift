@@ -52,4 +52,30 @@ public class RewardReposiotry {
     }
     
     
+    public func fetchRewardDetail(rewardId:String,onComplete: @escaping (_ data:JSON?) -> Void,onError: @escaping (String) -> Void){
+        
+        apiService.fetchRewardDetails(rewardIds: rewardId) { data in
+             onComplete(data)
+        } onError: { ErrorString in
+          
+            onError(ErrorString)
+            print("⚠️ Error : \(ErrorString)")
+        }
+
+    }
+    
+    
+    public func claimReward(rewardId:String,onComplete: @escaping (_ url:String) -> Void,onError: @escaping (String) -> Void){
+        
+        apiService.claimReward(rewardIds: rewardId) { data in
+            onComplete(data)
+        } onError: { ErrorString in
+          
+            onError(ErrorString)
+            print("⚠️ Error : \(ErrorString)")
+        }
+
+    }
+    
+    
 }

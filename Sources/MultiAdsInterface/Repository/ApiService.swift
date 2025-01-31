@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftyJSON
+import AdSupport
 
 public class ApiService {
     
@@ -217,5 +218,102 @@ public class ApiService {
                   }
               }
           }.resume()
+    }
+    
+    
+    func fetchRewardDetails(rewardIds: String,onComplete: @escaping (_ data:JSON?) -> Void,onError: @escaping (String) -> Void) {
+        
+        
+        let device_public_key: String = DeviceMethods().getDevicePublicKey()
+       
+        guard let url = URL(string: reward_details_url + device_public_key + "/" + rewardIds  ) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(device_public_key, forHTTPHeaderField: "device-public-key")
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            print("Reward Detail 1 Completed[✅]");
+            if let error = error {
+                  DispatchQueue.main.async {
+                      print("MultiAds:[_fetchConfig]->Error[❌] : \(error.localizedDescription)");
+                      onError(error.localizedDescription)
+                  }
+                  return
+              }
+            print("Reward Detail 2 Completed[✅]");
+              DispatchQueue.main.async {
+                  print("Reward Detail3 Completed[✅]");
+                  if(data != nil){
+                      print("Reward Detail 4 Completed[✅]");
+                      let json = try? JSON(data: data!)
+                      if(json?["success"].boolValue ?? false){
+                          print("Reward Detail:[json]->Success[✅] \(String(describing: json))");
+                          onComplete(json?["data"])
+                      }else{
+                          print("Reward Detail 5 Completed[✅] \(String(describing: json))");
+                      }
+                  }else{
+                      print("Reward Detail 6 Completed[✅]");
+
+                      print("Reward Detail:[_fetchConfig]->Error[❌]");
+                  }
+              }
+          }.resume()
+    }
+    
+    func claimReward(rewardIds: String,onComplete: @escaping (_ url:String) -> Void,onError: @escaping (String) -> Void) {
+        do {
+ 
+            let device_public_key: String = DeviceMethods().getDevicePublicKey()
+            let device_iifd: String = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+           
+            guard let url = URL(string: reward_claim_url   ) else { return }
+            let body = [
+                "reward_id": rewardIds,
+                "reward_type_id": ServerConfig.sharedInstance.configJson?["reward_type_id"].stringValue ?? "1",
+                "device_public_key": device_public_key,
+                "device_iifd": device_iifd,
+                "appName": DeviceMethods().appName,
+                "package":  DeviceMethods().package,
+                "version":  DeviceMethods().version ,
+                "buildNumber":  DeviceMethods().buildNumber,
+            ]
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            let jsonData = try JSONSerialization.data(withJSONObject: body)
+            request.httpBody = jsonData
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue(device_public_key, forHTTPHeaderField: "device-public-key")
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                print("Claim Reward 1 Completed[✅]");
+                if let error = error {
+                      DispatchQueue.main.async {
+                          print("MultiAds:[_fetchConfig]->Error[❌] : \(error.localizedDescription)");
+                          onError(error.localizedDescription)
+                      }
+                      return
+                  }
+                print("Claim Reward 2 Completed[✅]");
+                  DispatchQueue.main.async {
+                      print("Claim Reward Completed[✅]");
+                      if(data != nil){
+                          print("Claim Reward Completed[✅]");
+                          let json = try? JSON(data: data!)
+                          if(json?["success"].boolValue ?? false){
+                              print("Claim Reward:[json]->Success[✅] \(String(describing: json))");
+                              onComplete(json?["link"].stringValue ?? "")
+                          }else{
+                              print("Claim Reward 5 Completed[✅] \(String(describing: json))");
+                          }
+                      }else{
+                          print("Claim Reward 6 Completed[✅]");
+
+                          print("Claim Reward:[_fetchConfig]->Error[❌]");
+                      }
+                  }
+              }.resume()
+        } catch {
+            onError(error.localizedDescription)
+        }
     }
 }
