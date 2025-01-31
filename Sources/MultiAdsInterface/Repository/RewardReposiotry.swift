@@ -14,18 +14,16 @@ public class RewardReposiotry {
     public init(){}
     
     
-    public func getReward(rewardType:String) -> [JSON?] {
+    public func getReward(rewardType:String,onComplete: @escaping (_ data:[JSON?]) -> Void,onError: @escaping (String) -> Void){
         
-        var ar:[JSON?] = []
          apiService.getNormalReward(rewardType: rewardType) { data in
-             ar = data?.arrayValue ?? []
+             onComplete( data?.arrayValue ?? [])
         } onError: { ErrorString in
           
+            onError(ErrorString)
             print("⚠️ Error : \(ErrorString)")
         }
 
-        
-        return ar
     }
     
     
