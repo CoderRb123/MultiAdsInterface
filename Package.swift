@@ -7,7 +7,7 @@ let package = Package(
     products: [
         .library(
             name: "MultiAdsInterface",
-            targets: ["MultiAdsInterface"]),
+            targets: ["MultiAdsInterface","UserMessagingPlatformDep"]),
         
     ],
     dependencies : [
