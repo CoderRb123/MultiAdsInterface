@@ -20,11 +20,11 @@ let package = Package(
         .target(
             name: "MultiAdsInterface",
             dependencies: ["SwiftyJSON","IPAPI","KeychainSwift",.byName(name: "UserMessagingPlatformDep")],
-            path: "./Sources/"
+            path: "Sources/"
         ),
         .binaryTarget(
          name: "UserMessagingPlatformDep",
-         path: "./UserMessagingPlatform.xcframework"),
+         path: "UserMessagingPlatform.xcframework"),
 
     ]
 )
