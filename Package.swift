@@ -7,24 +7,22 @@ let package = Package(
     products: [
         .library(
             name: "MultiAdsInterface",
-            targets: ["MultiAdsInterface","UserMessagingPlatformDep"]),
+            targets: ["MultiAdsInterface"]),
         
     ],
     dependencies : [
         .package(name:"SwiftyJSON",url: "https://github.com/SwiftyJSON/SwiftyJSON.git", .upToNextMajor(from: "5.0.2")),
         .package(name:"IPAPI",url: "https://github.com/arturgrigor/IPAPI.git",.upToNextMajor(from: "3.0.0")),
-        .package(name:"KeychainSwift",url: "https://github.com/evgenyneu/keychain-swift.git",.upToNextMajor(from: "24.0.0"))
+        .package(name:"KeychainSwift",url: "https://github.com/evgenyneu/keychain-swift.git",.upToNextMajor(from: "24.0.0")),
+        .package(name:"UMPDialog",url: "https://github.com/CoderRb123/UMPDialog.git",.branch(String("main")))
         
     ],
     targets: [
         .target(
             name: "MultiAdsInterface",
-            dependencies: ["SwiftyJSON","IPAPI","KeychainSwift",.byName(name: "UserMessagingPlatformDep")],
+            dependencies: ["SwiftyJSON","IPAPI","KeychainSwift","UMPDialog"],
             path: "Sources/"
         ),
-        .binaryTarget(
-         name: "UserMessagingPlatformDep",
-         path: "./Sources/UserMessagingPlatform.xcframework"),
-
+    
     ]
 )
