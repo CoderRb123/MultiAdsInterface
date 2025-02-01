@@ -21,7 +21,19 @@ public struct AppAdHelper<Content: View>: View {
         content().onAppear {
             if(!notFirstTime){
                 MultiAdsInterface().setUp(
-                    registerAppParameters: registerAppParameters
+                    registerAppParameters: RegisterAppParameters(
+                        
+                        appVersion:registerAppParameters.appVersion,
+                        rewardType:registerAppParameters.rewardType,
+                        apiKey: registerAppParameters.apiKey,
+                        onUpdateLaunch: registerAppParameters.onUpdateLaunch,
+                        onError: registerAppParameters.onError,
+                        onComplete: { data in
+                            notFirstTime = true
+                            registerAppParameters.onComplete(data)
+                        },
+                        requiredAdNetworks:registerAppParameters.requiredAdNetworks
+                    )
                 )
             }
         }
