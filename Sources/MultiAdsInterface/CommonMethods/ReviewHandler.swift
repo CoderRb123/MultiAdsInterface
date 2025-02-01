@@ -8,6 +8,7 @@
 
 public class ReviewHandler {
     
+    public init(){}
     public static func requestReview() {
         var count = UserDefaults.standard.integer(forKey: UserDefaultsKeys.appStartUpsCountKey)
               count += 1
