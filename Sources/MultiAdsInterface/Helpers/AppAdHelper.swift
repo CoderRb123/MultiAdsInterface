@@ -9,7 +9,6 @@ import SwiftUI
 
 @available(iOS 13.0, *)
 public struct AppAdHelper<Content: View>: View {
-    
     let content: () -> Content
     @State var notFirstTime: Bool = false
     let registerAppParameters:RegisterAppParameters
