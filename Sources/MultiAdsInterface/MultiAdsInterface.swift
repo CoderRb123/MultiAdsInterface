@@ -131,7 +131,6 @@ public class MultiAdsInterface {
     public func showAds(from:String,adCallback:AdModuleWithCallBacks) {
         /*
           This Function Call Screen Based Ads
-         
          */
         AdEngine.shared.loadScreenBasedAds(from: from,adCallback: adCallback)
     }
