@@ -5,11 +5,13 @@
 //  Created by Khusnud Zehra on 01/02/25.
 //
 
-
+import Foundation
+import StoreKit
+import SwiftUI
 public class ReviewHandler {
     
     public init(){}
-    public static func requestReview() {
+    public func requestReview() {
         var count = UserDefaults.standard.integer(forKey: UserDefaultsKeys.appStartUpsCountKey)
               count += 1
               UserDefaults.standard.set(count, forKey: UserDefaultsKeys.appStartUpsCountKey)

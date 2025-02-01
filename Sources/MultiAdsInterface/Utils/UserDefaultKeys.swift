@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserDefaultKeys {
+public struct UserDefaultKeys {
     static let appStartUpsCountKey = "appStartUpsCountKey"
     static let lastVersionPromptedForReviewKey = "lastVersionPromptedForReviewKey"
 

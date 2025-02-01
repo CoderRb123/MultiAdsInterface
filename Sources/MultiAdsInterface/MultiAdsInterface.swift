@@ -1,6 +1,8 @@
 import Foundation
 import SwiftyJSON
 import SwiftUI
+import StoreKit
+import SwiftUI
 
 @available(iOS 13.0, *)
 public class MultiAdsInterface {
@@ -71,6 +73,26 @@ public class MultiAdsInterface {
        
     }
     
+    
+    @available(iOS 14.0, *)
+    public func inAppReviewCaller() {
+        var count = UserDefaults.standard.integer(forKey: "appStartUpsCountKey")
+              count += 1
+              UserDefaults.standard.set(count, forKey: "appStartUpsCountKey")
+              
+              let infoDictionaryKey = kCFBundleVersionKey as String
+              guard let currentVersion = Bundle.main.object(forInfoDictionaryKey: infoDictionaryKey) as? String
+                  else { fatalError("Expected to find a bundle version in the info dictionary") }
+
+              let lastVersionPromptedForReview = UserDefaults.standard.string(forKey: "lastVersionPromptedForReviewKey")
+              
+              if count >= 4 && currentVersion != lastVersionPromptedForReview {
+                  DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+                      if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                          SKStoreReviewController.requestReview(in: scene)
+                      }
+                  }
+              }    }
     
    
    
