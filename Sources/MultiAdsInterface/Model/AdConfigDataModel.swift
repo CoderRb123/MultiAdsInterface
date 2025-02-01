@@ -26,9 +26,13 @@ public class AdConfigDataModel {
 
     public static func fromJson(data: [String: Any]) -> AdConfigDataModel {
         print("Parsing ✅")
-        print(data["tap"])
+        var tap:[String] = []
+        data["tap"].map { vale in
+            tap.append(String(describing: vale))
+        }
+        
         return AdConfigDataModel(
-            tap:  (data["tap"] as? [Double])?.compactMap({String($0)}) ,
+            tap:  tap,
             native: (data["native"] as? Int) ?? 0,
             banner: (data["banner"] as? Int) ?? 0,
             failed: (data["failed"] as? [String: String]) ?? ["1.0":"2.0"],
@@ -40,5 +44,19 @@ public class AdConfigDataModel {
 
 
     
+}
+
+extension String {
+     struct NumFormatter {
+         static let instance = NumberFormatter()
+     }
+
+     var doubleValue: Double? {
+         return NumFormatter.instance.number(from: self)?.doubleValue
+     }
+
+     var integerValue: Int? {
+         return NumFormatter.instance.number(from: self)?.intValue
+     }
 }
 
