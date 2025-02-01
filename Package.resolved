@@ -27,15 +27,6 @@
           "revision": "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
           "version": "5.0.2"
         }
-      },
-      {
-        "package": "UMPDialog",
-        "repositoryURL": "https://github.com/CoderRb123/UMPDialog.git",
-        "state": {
-          "branch": "main",
-          "revision": "8117f1fa5f036350a8ba482dc5b831fd2d5e7827",
-          "version": null
-        }
       }
     ]
   },
