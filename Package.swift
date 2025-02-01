@@ -8,6 +8,7 @@ let package = Package(
         .library(
             name: "MultiAdsInterface",
             targets: ["MultiAdsInterface"]),
+        
     ],
     dependencies : [
         .package(name:"SwiftyJSON",url: "https://github.com/SwiftyJSON/SwiftyJSON.git", .upToNextMajor(from: "5.0.2")),
@@ -23,7 +24,7 @@ let package = Package(
         ),
         .binaryTarget(
          name: "UserMessagingPlatformDep",
-         path: "UserMessagingPlatform.xcframework"),
+         path: "./UserMessagingPlatform.xcframework"),
 
     ]
 )
