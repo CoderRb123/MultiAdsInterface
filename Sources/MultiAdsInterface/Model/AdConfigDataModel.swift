@@ -27,10 +27,10 @@ public class AdConfigDataModel {
     public static func fromJson(data: [String: Any]) -> AdConfigDataModel {
         print("Parsing ✅")
         var tap:[String] = []
-        data["tap"].map { vale in
-            tap.append(String(describing: vale))
+        for value in data["tap"] as! [Any] {
+            tap.append(String(describing: value))
         }
-        
+       
         return AdConfigDataModel(
             tap:  tap,
             native: (data["native"] as? Int) ?? 0,
