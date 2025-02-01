@@ -207,7 +207,7 @@ public class ApiService {
                       let json = try? JSON(data: data!)
                       if(json?["success"].boolValue ?? false){
                           print("Status Grouped:[json]->Success[✅] \(String(describing: json))");
-                          onComplete(json?["data"])
+                          onComplete(json)
                       }else{
                           print("Status Grouped 5 Completed[✅] \(String(describing: json))");
                       }
