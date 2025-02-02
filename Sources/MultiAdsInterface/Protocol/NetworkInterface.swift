@@ -59,5 +59,9 @@ public protocol NetworkInterface {
 
 @available(iOS 13.0, *)
 public struct ViewWrapper {
+    
+    public init(v: any View) {
+        self.v = v
+    }
     let v: any View
 }
