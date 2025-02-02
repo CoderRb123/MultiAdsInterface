@@ -44,9 +44,13 @@ public protocol NetworkInterface {
     func isRewardInterAdLoaded() -> Bool
 
     func loadAndShowRewardInter(adModuleCallBacks: AdModuleWithCallBacks?)
+    
+    
 
+    @ViewBuilder
     func getNativeAd(height:Double?,width:Double?,from:String?) -> any View
 
+    @ViewBuilder
     func getBannerAd(from:String?) -> any View
 }
 

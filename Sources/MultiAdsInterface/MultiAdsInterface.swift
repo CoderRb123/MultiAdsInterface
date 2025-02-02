@@ -151,9 +151,11 @@ public class MultiAdsInterface {
     
     
     
-    public func showNative(from:String?)->UIView? {
+    public func showNative(from:String?)-> any View {
         
-        return ServerConfig.sharedInstance.loadAdNetwork?[.google]?.getNativeAd(height: 200, width: 300, from: from)
+        return VStack {
+            
+        }
     }
     
     
