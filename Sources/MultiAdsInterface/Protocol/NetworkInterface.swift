@@ -48,9 +48,16 @@ public protocol NetworkInterface {
     
 
     @ViewBuilder
-    func getNativeAd(height:Double?,width:Double?,from:String?) -> any View
+    func getNativeAd(height:Double?,width:Double?,from:String?) ->  ViewWrapper
 
     @ViewBuilder
-    func getBannerAd(from:String?) -> any View
+    func getBannerAd(from:String?) -> ViewWrapper
 }
 
+
+
+
+@available(iOS 13.0, *)
+public struct ViewWrapper {
+    let v: any View
+}
