@@ -63,5 +63,5 @@ public struct ViewWrapper {
     public init(v: any View) {
         self.v = v
     }
-    let v: any View
+   public let v: any View
 }
