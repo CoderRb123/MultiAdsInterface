@@ -7,7 +7,9 @@
 
 import Foundation
 import UIKit
+import SwiftUICore
 
+@available(iOS 13.0, *)
 public protocol NetworkInterface {
     @available(iOS 13.0.0, *)
      func initNetwork()  -> Bool
@@ -43,8 +45,8 @@ public protocol NetworkInterface {
 
     func loadAndShowRewardInter(adModuleCallBacks: AdModuleWithCallBacks?)
 
-    func getNativeAd(height:Double?,width:Double?,from:String?) -> UIView?
+    func getNativeAd(height:Double?,width:Double?,from:String?) -> any View
 
-    func getBannerAd(from:String?) -> UIView?
+    func getBannerAd(from:String?) -> any View
 }
 
