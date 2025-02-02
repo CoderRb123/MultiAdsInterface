@@ -84,3 +84,5 @@ Contributions are welcome! Feel free to submit issues or pull requests.
 ## Contact
 For support or inquiries, please reach out to [your email or website].
 
+
+### version 1.0.0
