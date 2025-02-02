@@ -14,6 +14,7 @@ import SwiftUI
 
 
 
+@available(iOS 13.0, *)
 public class ServerConfig {
     static  public let sharedInstance = ServerConfig()
 
