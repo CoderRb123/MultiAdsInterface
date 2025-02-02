@@ -9,6 +9,7 @@ import Foundation
 import SwiftyJSON
 import AdSupport
 
+@available(iOS 13.0, *)
 public class ApiService {
     
     func registerDevice(body: [String: String],onComplete: @escaping (Any) -> Void,onError: @escaping (String) -> Void) {
