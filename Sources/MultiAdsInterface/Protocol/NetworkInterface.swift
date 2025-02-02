@@ -43,8 +43,8 @@ public protocol NetworkInterface {
 
     func loadAndShowRewardInter(adModuleCallBacks: AdModuleWithCallBacks?)
 
-    func getNativeAd() -> UIView?
+    func getNativeAd(height:Double?,width:Double?,from:String?) -> UIView?
 
-    func getBannerAd() -> UIView?
+    func getBannerAd(from:String?) -> UIView?
 }
 
