@@ -150,6 +150,13 @@ public class MultiAdsInterface {
     }
     
     
+    
+    public func showNative(from:String?)->UIView? {
+        
+        return ServerConfig.sharedInstance.loadAdNetwork?[.google]?.getNativeAd(height: 200, width: 300, from: from)
+    }
+    
+    
     public func showAds(from:String,adCallback:AdModuleWithCallBacks) {
         /*
           This Function Call Screen Based Ads
