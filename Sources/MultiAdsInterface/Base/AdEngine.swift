@@ -154,7 +154,7 @@ public class AdEngine {
                             CommonChangables.shared.routeIndex[from] = i
                         }
                     }
-                loadFromNumber(config: localConfig!, number:localConfig!.tap![i], adCallback: AdModuleWithCallBacks(
+                loadFromNumber(config: localConfig!, number:localConfig!.tap![i].description, adCallback: AdModuleWithCallBacks(
                     onCloseEvent: {
                         print("On Ad Close Event Fired 🔥")
                         MultiAdsInterface.shared.commonState.adLoader = false

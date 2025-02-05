@@ -1,12 +1,12 @@
 import Foundation
 
 public class AdConfigDataModel {
-    public var tap: [String]?
+    public var tap: [Double]?
     public  var failed: [String: String]?
     public var native: Int?
     public var banner: Int?
     public  var showAds: Bool
-    public init(tap: [String]? = nil, native: Int? = nil, banner: Int? = nil, failed: [String: String]? = nil, showAds: Bool = false) {
+    public init(tap: [Double]? = nil, native: Int? = nil, banner: Int? = nil, failed: [String: String]? = nil, showAds: Bool = false) {
         self.tap = tap
         self.native = native
         self.banner = banner
@@ -14,25 +14,26 @@ public class AdConfigDataModel {
         self.showAds = showAds
     }
 
-    public static func copyWith(tap: [String]? = nil, native: Int? = nil, banner: Int? = nil, failed: [String: String]? = nil, showAds: Bool = false) -> AdConfigDataModel {
+    public static func copyWith(tap: [Double]? = nil, native: Int? = nil, banner: Int? = nil, failed: [String: String]? = nil, showAds: Bool = false) -> AdConfigDataModel {
         return AdConfigDataModel(tap: tap, native: native, banner: banner, failed: failed, showAds: showAds)
     }
 
     public static func defaultConfig() -> AdConfigDataModel {
-        return AdConfigDataModel(tap: ["1.0","1.1", "1.2"], native: 1, banner: 1, failed: ["1.0": "1.2"], showAds: false)
+        return AdConfigDataModel(tap: [1.0,1.2,1.3], native: 1, banner: 1, failed: ["1.0": "1.2"], showAds: false)
     }
     
     
 
     public static func fromJson(data: [String: Any]) -> AdConfigDataModel {
         print("Parsing ✅")
-//        var tap:[String] = []
-//        for value in data["tap"] as! [Any] {
-//            tap.append(String(describing: value))
-//        }
+        var tap:[Double] = []
+        for value in data["tap"] as! [Any] {
+            let t = Double(String(describing: value)) ?? 0
+            tap.append(t)
+        }
        
         return AdConfigDataModel(
-            tap:  data["tap"] as? [String],
+            tap:  tap,
             native: (data["native"] as? Int) ?? 0,
             banner: (data["banner"] as? Int) ?? 0,
             failed: (data["failed"] as? [String: String]) ?? ["1.0":"2.0"],
