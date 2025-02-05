@@ -58,7 +58,7 @@ public class AdEngine {
         case "2.0":
             let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.unity] != nil
             if(keyExists){
-                ServerConfig.sharedInstance.loadAdNetwork![.unity]?.loadInterAd(adModuleCallBacks: adCallback)
+                ServerConfig.sharedInstance.loadAdNetwork![.unity]?.loadAndShowInterAd(adModuleCallBacks: adCallback)
                 return
              }
             adCallback.onCloseEvent?()
@@ -66,7 +66,7 @@ public class AdEngine {
         case "2.1":
             let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.unity] != nil
             if(keyExists){
-                ServerConfig.sharedInstance.loadAdNetwork![.unity]?.loadRewardAd(adModuleCallBacks: adCallback)
+                ServerConfig.sharedInstance.loadAdNetwork![.unity]?.loadAndShowRewardAd(adModuleCallBacks: adCallback)
                 return
              }
             adCallback.onCloseEvent?()
@@ -74,7 +74,7 @@ public class AdEngine {
         case "2.2":
             let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.unity] != nil
             if(keyExists){
-                ServerConfig.sharedInstance.loadAdNetwork![.unity]?.loadRewardInter(adModuleCallBacks: adCallback)
+                ServerConfig.sharedInstance.loadAdNetwork![.unity]?.loadAndShowRewardAd(adModuleCallBacks: adCallback)
                 return
              }
             adCallback.onCloseEvent?()
@@ -82,7 +82,7 @@ public class AdEngine {
         case "3.0":
             let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.ironSource] != nil
             if(keyExists){
-                ServerConfig.sharedInstance.loadAdNetwork![.ironSource]?.loadInterAd(adModuleCallBacks: adCallback)
+                ServerConfig.sharedInstance.loadAdNetwork![.ironSource]?.loadAndShowInterAd(adModuleCallBacks: adCallback)
                 return
              }
             adCallback.onCloseEvent?()
@@ -90,7 +90,7 @@ public class AdEngine {
         case "3.1":
             let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.ironSource] != nil
             if(keyExists){
-                ServerConfig.sharedInstance.loadAdNetwork![.ironSource]?.loadRewardAd(adModuleCallBacks: adCallback)
+                ServerConfig.sharedInstance.loadAdNetwork![.ironSource]?.loadAndShowRewardAd(adModuleCallBacks: adCallback)
                 return
              }
             adCallback.onCloseEvent?()
@@ -98,7 +98,7 @@ public class AdEngine {
         case "3.2":
             let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.ironSource] != nil
             if(keyExists){
-                ServerConfig.sharedInstance.loadAdNetwork![.ironSource]?.loadRewardInter(adModuleCallBacks: adCallback)
+                ServerConfig.sharedInstance.loadAdNetwork![.ironSource]?.loadAndShowRewardAd(adModuleCallBacks: adCallback)
                 return
              }
             adCallback.onCloseEvent?()
