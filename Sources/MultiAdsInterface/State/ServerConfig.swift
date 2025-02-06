@@ -27,6 +27,7 @@ public class ServerConfig {
     public var adNetworkIds: [String: AdNetworkIds]?
     public var initAdNetworks: [String] = []
     public var extraConfig: [String: Any]?
+    public var updateDialogConfig: [String: Any]?
     public var loadAdNetwork: [NetworkType: NetworkInterface]?
     
   

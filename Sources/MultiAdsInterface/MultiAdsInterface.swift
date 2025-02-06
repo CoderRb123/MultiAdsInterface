@@ -68,6 +68,15 @@ public class MultiAdsInterface {
             print("🐞 Trace From Data [End]")
         }
         
+        let updateDialogConfig = data["versions"]["update_dialog_config"].stringValue
+        if let jsonDict = JsonMethods().convertToDictionary(jsonString: updateDialogConfig) {
+            ServerConfig.sharedInstance.updateDialogConfig = jsonDict
+        } else {
+            print("⚠️ Error Parsing Update Diload Config ⚠️")
+            print("🐞 Trace From Data [Start]")
+            print(updateDialogConfig)
+            print("🐞 Trace From Data [End]")
+        }
         setupAdNetworks()
         
        
@@ -132,6 +141,7 @@ public class MultiAdsInterface {
                 ApiReposiotry().fetchConfig(apiKey: registerAppParameters.apiKey.iosKey ?? "nil", appVersion: registerAppParameters.appVersion) { data in
                     if data != nil {
                         self.postSetup(data: data!)
+                        // Check For Update
                         print("On Config Complete")
                         registerAppParameters.onComplete(ServerConfig.sharedInstance.configJson ?? JSON({}))
                     } else {
