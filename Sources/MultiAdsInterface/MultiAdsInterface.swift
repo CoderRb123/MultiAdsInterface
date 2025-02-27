@@ -59,7 +59,7 @@ public class MultiAdsInterface {
         // Parse Extra Config
         let extraConfigs = data["versions"]["extra_config"].stringValue
         if let jsonDict = JsonMethods().convertToArrayAny(jsonString: extraConfigs) {
-            ServerConfig.sharedInstance.extraConfig = jsonDict[0] as? [String: Any]
+            ServerConfig.sharedInstance.extraConfig = jsonDict as? [String: Any]
 
         } else {
             print("⚠️ Error Parsing ExtraConfig Array⚠️")
@@ -99,9 +99,11 @@ public class MultiAdsInterface {
                   DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
                       if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
                           SKStoreReviewController.requestReview(in: scene)
+                          UserDefaults.standard.set(currentVersion, forKey: "lastVersionPromptedForReviewKey")
                       }
                   }
-              }    }
+              }
+    }
     
    
    
