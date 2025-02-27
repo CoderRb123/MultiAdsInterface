@@ -28,10 +28,10 @@ public class RewardReposiotry {
     }
     
     
-    public func getDateGroupedReward(rewardType:String,onComplete: @escaping (_ data:[JSON?]) -> Void,onError: @escaping (String) -> Void){
+    public func getDateGroupedReward(rewardType:String,onComplete: @escaping (_ data:JSON?) -> Void,onError: @escaping (String) -> Void){
         
          apiService.getDateGroupedReward(rewardType: rewardType) { data in
-             onComplete( data?.arrayValue ?? [])
+             onComplete( data)
         } onError: { ErrorString in
           
             onError(ErrorString)
