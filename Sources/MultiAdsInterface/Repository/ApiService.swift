@@ -8,12 +8,15 @@
 import Foundation
 import SwiftyJSON
 import AdSupport
+import SwiftUI
 
 @available(iOS 13.0, *)
 public class ApiService {
     
+    @ObservedObject var networkConst: NetworkConst = NetworkConst.shared
+    
     func registerDevice(body: [String: String],onComplete: @escaping (Any) -> Void,onError: @escaping (String) -> Void) {
-        guard let url = URL(string: device_register_url) else { return }
+        guard let url = URL(string: networkConst.networkLink.device_register_url) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -58,8 +61,8 @@ public class ApiService {
         print("MultiAds:[_fetchConfig]->Checking Device Public Key[⚠️] : \(device_public_key)");
         print("MultiAds:[_fetchConfig]->Checking Api Key[⚠️] : \(apiKey)");
         print("MultiAds:[_fetchConfig]->Checking App Version[⚠️] : \(appVersion)");
-        print("MultiAds:[_fetchConfig]->Checking App Url[⚠️] : \( get_config_url + apiKey + "/" + appVersion + "/" + device_public_key)");
-        guard let url = URL(string: get_config_url + apiKey + "/" + appVersion + "/" + device_public_key) else { return }
+        print("MultiAds:[_fetchConfig]->Checking App Url[⚠️] : \(  networkConst.networkLink.get_config_url + apiKey + "/" + appVersion + "/" + device_public_key)");
+        guard let url = URL(string:  networkConst.networkLink.get_config_url + apiKey + "/" + appVersion + "/" + device_public_key) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -104,7 +107,7 @@ public class ApiService {
         
         let device_public_key: String = DeviceMethods().getDevicePublicKey()
        
-        guard let url = URL(string: reward_normal_url + device_public_key + "/" + rewardType + "/normal" ) else { return }
+        guard let url = URL(string: networkConst.networkLink.reward_normal_url + device_public_key + "/" + rewardType + "/normal" ) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -145,7 +148,7 @@ public class ApiService {
         
         let device_public_key: String = DeviceMethods().getDevicePublicKey()
        
-        guard let url = URL(string: reward_normal_url + device_public_key + "/" + rewardType + "/grouped" ) else { return }
+        guard let url = URL(string: networkConst.networkLink.reward_normal_url + device_public_key + "/" + rewardType + "/grouped" ) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -186,7 +189,7 @@ public class ApiService {
         
         let device_public_key: String = DeviceMethods().getDevicePublicKey()
        
-        guard let url = URL(string: reward_normal_url + device_public_key + "/" + rewardType + "/categorized" ) else { return }
+        guard let url = URL(string: networkConst.networkLink.reward_normal_url + device_public_key + "/" + rewardType + "/categorized" ) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -227,7 +230,7 @@ public class ApiService {
         
         let device_public_key: String = DeviceMethods().getDevicePublicKey()
        
-        guard let url = URL(string: reward_details_url + device_public_key + "/" + rewardIds  ) else { return }
+        guard let url = URL(string: networkConst.networkLink.reward_details_url + device_public_key + "/" + rewardIds  ) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -268,7 +271,7 @@ public class ApiService {
             let device_public_key: String = DeviceMethods().getDevicePublicKey()
             let device_iifd: String = ASIdentifierManager.shared().advertisingIdentifier.uuidString
            
-            guard let url = URL(string: reward_claim_url   ) else { return }
+            guard let url = URL(string: networkConst.networkLink.reward_claim_url   ) else { return }
             let body = [
                 "reward_id": rewardIds,
                 "reward_type_id": ServerConfig.sharedInstance.configJson?["reward_type_id"].stringValue ?? "1",

@@ -12,13 +12,20 @@ public struct AppAdHelper<Content: View>: View {
     let content: () -> Content
     @State var notFirstTime: Bool = false
     let registerAppParameters:RegisterAppParameters
-    public init(@ViewBuilder content: @escaping () -> Content,registerAppParameters: RegisterAppParameters) {
+    let networkLinks: NetworkLinks
+    
+    @ObservedObject var networkConstvariable:NetworkConst = NetworkConst.shared
+    
+    public init(@ViewBuilder content: @escaping () -> Content,registerAppParameters: RegisterAppParameters,networkConst:NetworkLinks) {
         self.content = content
         self.registerAppParameters = registerAppParameters
+        self.networkLinks = networkConst
     }
     public var body: some View {
         content().onAppear {
             if(!notFirstTime){
+                
+                networkConstvariable.networkLink = networkConstvariable.networkLink
                 MultiAdsInterface().setUp(
                     registerAppParameters: RegisterAppParameters(
                         
