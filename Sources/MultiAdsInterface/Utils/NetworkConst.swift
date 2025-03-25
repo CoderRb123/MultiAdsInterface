@@ -20,14 +20,14 @@ public class NetworkConst: ObservableObject {
 
 
 public class NetworkLinks : Identifiable{
-    var baseURL = "https://rbtechlab.in/MicroService/public/api/"
-    var device_register_url:String
-    var get_config_url:String
-    var reward_normal_url:String
-    var reward_details_url:String
-    var reward_claim_url:String
+    public var baseURL = "https://rbtechlab.in/MicroService/public/api/"
+    public var device_register_url:String
+    public var get_config_url:String
+    public var reward_normal_url:String
+    public var reward_details_url:String
+    public var reward_claim_url:String
     
-    init(baseUrl:String?){
+    public init(baseUrl:String?){
         self.baseURL = baseUrl ?? "https://rbtechlab.in/MicroService/public/api/"
         self.device_register_url   = baseURL + "device-register"
         self.get_config_url        = baseURL + "config/"
