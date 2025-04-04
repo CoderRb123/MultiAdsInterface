@@ -14,7 +14,7 @@ public struct AppAdHelper<Content: View>: View {
     let registerAppParameters:RegisterAppParameters
     
     
-    public init(@ViewBuilder content: @escaping () -> Content,registerAppParameters: RegisterAppParameters,baseUrl:String) {
+    public init(@ViewBuilder content: @escaping () -> Content,registerAppParameters: RegisterAppParameters) {
         self.content = content
         self.registerAppParameters = registerAppParameters
     }
