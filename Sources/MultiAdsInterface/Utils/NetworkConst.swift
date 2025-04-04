@@ -13,7 +13,7 @@ import SwiftUI
 public class NetworkConst: ObservableObject {
     
    public static let shared = NetworkConst()
-    @Published var networkLink = NetworkLinks(baseUrl: nil)
+    @Published public var networkLink = NetworkLinks(baseUrl: nil)
     
     public init() {
     }
