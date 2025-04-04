@@ -15,6 +15,9 @@ public class NetworkConst: ObservableObject {
     static let shared = NetworkConst()
     @Published var networkLink = NetworkLinks(baseUrl: nil)
     
+    public init() {
+    }
+    
     
 }
 
