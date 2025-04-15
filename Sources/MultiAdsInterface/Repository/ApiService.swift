@@ -153,6 +153,7 @@ public class ApiService {
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(device_public_key, forHTTPHeaderField: "device-public-key")
+          
         URLSession.shared.dataTask(with: request) { data, response, error in
             print("NormalReward 1 Completed[✅]");
             if let error = error {
