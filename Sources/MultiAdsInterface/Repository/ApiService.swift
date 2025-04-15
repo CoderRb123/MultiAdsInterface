@@ -169,6 +169,7 @@ public class ApiService {
                   if(data != nil){
                       print("NormalReward 4 Completed[✅]");
                       let json = try? JSON(data: data!)
+                    
                       if(json?["success"].boolValue ?? false){
                           print("NormalReward:[json]->Success[✅] \(String(describing: json))");
                           onComplete(json?["data"])
@@ -189,12 +190,16 @@ public class ApiService {
         
         
         let device_public_key: String = DeviceMethods().getDevicePublicKey()
+        
+        let urlString = networkConst.networkLink.reward_normal_url + device_public_key + "/" + rewardType + "/categorized"
        
-        guard let url = URL(string: networkConst.networkLink.reward_normal_url + device_public_key + "/" + rewardType + "/categorized" ) else { return }
+        guard let url = URL(string:urlString ) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(device_public_key, forHTTPHeaderField: "device-public-key")
+        print(urlString)
+        print(device_public_key)
         URLSession.shared.dataTask(with: request) { data, response, error in
             print("Status Grouped 1 Completed[✅]");
             if let error = error {
