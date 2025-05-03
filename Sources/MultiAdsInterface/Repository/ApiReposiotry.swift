@@ -25,8 +25,10 @@ public class ApiReposiotry {
     }
     @MainActor public func deviceRegister(adId:String,registerAppParameters:RegisterAppParameters) {
         print("is VPN Connected : \(isVPNConnected())")
-        Service.default.fetch(fields: [.ip,.isp, .countryName, .city, .regionName, .zipCode]) {
+        Service.default.fetch(fields: [.ip,.isp, .countryName, .city, .regionName, .zipCode,.proxy]) {
             if let result = try? $0.get() {
+                print("Proxy  : \(String(describing: result.proxy))")
+
                 self.apiService.registerDevice(body: [
                     "device_id": DeviceMethods().getDeviceId()!,
                     "device_name": DeviceMethods().getDeviceName()!,
