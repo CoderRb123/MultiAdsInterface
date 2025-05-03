@@ -1,4 +1,5 @@
 import IPAPI
+import SystemConfiguration
 import Foundation
 import SwiftyJSON
 
@@ -11,20 +12,37 @@ public class ApiReposiotry {
     let apiService: ApiService = ApiService()
     public init() {}
     
-    func isVPNConnected() -> Bool {
-        let cfDict = CFNetworkCopySystemProxySettings()
-        let nsDict = cfDict!.takeRetainedValue() as NSDictionary
-        let keys = nsDict["__SCOPED__"] as! NSDictionary
-
-        for key: String in keys.allKeys as! [String] {
-            if (key == "tap" || key == "tun" || key == "ppp" || key == "ipsec" || key == "ipsec0" || key == "utun1" || key == "utun2") {
-                return true
-            }
+    func isConnectedToVpn() -> Bool {
+        let host = "www.example.com"
+        guard let reachability = SCNetworkReachabilityCreateWithName(nil, host) else {
+            return false
         }
-        return false
+        var flags = SCNetworkReachabilityFlags()
+        if SCNetworkReachabilityGetFlags(reachability, &flags) == false {
+            return false
+        }
+        let isOnline = flags.contains(.reachable) && !flags.contains(.connectionRequired)
+        if !isOnline {
+            return false
+        }
+        let isMobileNetwork = flags.contains(.isWWAN)
+        let isTransientConnection = flags.contains(.transientConnection)
+        if isMobileNetwork {
+            if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? Dictionary<String, Any>,
+                let scopes = settings["__SCOPED__"] as? [String:Any] {
+                for (key, _) in scopes {
+                    if key.contains("tap") || key.contains("tun") || key.contains("ppp") {
+                        return true
+                    }
+                }
+            }
+            return false
+        } else {
+            return isTransientConnection
+        }
     }
     @MainActor public func deviceRegister(adId:String,registerAppParameters:RegisterAppParameters) {
-        print("is VPN Connected : \(isVPNConnected())")
+        print("is VPN Connected : \(isConnectedToVpn())")
         Service.default.fetch(fields: [.ip,.isp, .countryName, .city, .regionName, .zipCode,.proxy]) {
             if let result = try? $0.get() {
                 print("Proxy  : \(String(describing: result.proxy))")
