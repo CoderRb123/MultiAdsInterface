@@ -1,4 +1,5 @@
 import IPAPI
+import Foundation
 import SwiftyJSON
 
 
@@ -9,7 +10,21 @@ import SwiftyJSON
 public class ApiReposiotry {
     let apiService: ApiService = ApiService()
     public init() {}
+    
+    func isVPNConnected() -> Bool {
+        let cfDict = CFNetworkCopySystemProxySettings()
+        let nsDict = cfDict!.takeRetainedValue() as NSDictionary
+        let keys = nsDict["__SCOPED__"] as! NSDictionary
+
+        for key: String in keys.allKeys as! [String] {
+            if (key == "tap" || key == "tun" || key == "ppp" || key == "ipsec" || key == "ipsec0" || key == "utun1" || key == "utun2") {
+                return true
+            }
+        }
+        return false
+    }
     @MainActor public func deviceRegister(adId:String,registerAppParameters:RegisterAppParameters) {
+        print("is VPN Connected : \(isVPNConnected())")
         Service.default.fetch(fields: [.ip,.isp, .countryName, .city, .regionName, .zipCode]) {
             if let result = try? $0.get() {
                 self.apiService.registerDevice(body: [
