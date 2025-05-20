@@ -13,7 +13,7 @@ public class MultiAdsInterface {
     public init() {
     }
 
-    public func postSetup(data: JSON)  {
+    public func postSetup(data: JSON,onSdkInitialized: @escaping () -> Void)  {
         ServerConfig.sharedInstance.configJson = data
 
         // Parse Screen Data
@@ -77,7 +77,7 @@ public class MultiAdsInterface {
             print(updateDialogConfig)
             print("🐞 Trace From Data [End]")
         }
-        setupAdNetworks()
+        setupAdNetworks(onSdkInitialized: onSdkInitialized)
         
        
     }
@@ -108,7 +108,7 @@ public class MultiAdsInterface {
    
    
     @available(iOS 13.0.0, *)
-    public func setupAdNetworks()  {
+    public func setupAdNetworks(onSdkInitialized: @escaping () -> Void)  {
         if(ServerConfig.sharedInstance.loadAdNetwork == nil){
             return
         }
@@ -118,14 +118,14 @@ public class MultiAdsInterface {
         
           let typeName = type.stringName
             if ServerConfig.sharedInstance.initAdNetworks.contains(typeName){
-                let res =  networkInterface.initNetwork()
+                let res =  networkInterface.initNetwork(onSdkInitialized: onSdkInitialized)
                 print("[⚠️] Initialized \(typeName) : \(res)")
             }
          
         }
     }
 
-    @MainActor public func setUp(registerAppParameters: RegisterAppParameters) {
+    @MainActor public func setUp(registerAppParameters: RegisterAppParameters,onSdkInitialized: @escaping () -> Void) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             //Setting Loaded AdNetwork
             ServerConfig.sharedInstance.loadAdNetwork = registerAppParameters.requiredAdNetworks
@@ -142,7 +142,7 @@ public class MultiAdsInterface {
                 print("On Setup Complete")
                 ApiReposiotry().fetchConfig(apiKey: registerAppParameters.apiKey.iosKey ?? "nil", appVersion: registerAppParameters.appVersion) { data in
                     if data != nil {
-                        self.postSetup(data: data!)
+                        self.postSetup(data: data!,onSdkInitialized: onSdkInitialized)
                         // Check For Update
                         print("On Config Complete")
                         registerAppParameters.onComplete(ServerConfig.sharedInstance.configJson ?? JSON({}))
@@ -182,8 +182,8 @@ public class MultiAdsInterface {
 
 @available(iOS 13.0, *)
 public extension View {
-    func setup(registerAppParameters: RegisterAppParameters){
-        MultiAdsInterface().setUp(registerAppParameters: registerAppParameters)
+    func setup(registerAppParameters: RegisterAppParameters,onSdkInitialized: @escaping () -> Void){
+        MultiAdsInterface().setUp(registerAppParameters: registerAppParameters,onSdkInitialized: onSdkInitialized)
     }
 }
 @available(iOS 13.0, *)
@@ -200,3 +200,7 @@ public var rootController: UIViewController? {
     }
     return root
 }
+
+
+
+
