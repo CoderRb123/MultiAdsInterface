@@ -6,6 +6,7 @@ public enum NetworkType {
     case yodoMas
     case ironSource
     case facebook
+    case appLovin
     
     
     public  static func fromName(_ value: String) -> NetworkType {
@@ -15,6 +16,7 @@ public enum NetworkType {
         case "yodo": return .yodoMas
         case "ironsource": return .ironSource
         case "facebook": return .facebook
+        case "appLovin": return .appLovin
         default: return .none
         }
     }
@@ -28,6 +30,7 @@ public enum NetworkType {
         case "3": return .yodoMas
         case "4": return .ironSource
         case "5": return .facebook
+        case "6": return .appLovin
         default: return .none
         }
     }
@@ -39,6 +42,7 @@ public enum NetworkType {
             case .yodoMas: return "3"
             case .ironSource: return "4"
             case .facebook: return "5"
+            case .appLovin: return "6"
             }
         }
     
@@ -50,6 +54,7 @@ public enum NetworkType {
             case .yodoMas: return "yodo"
             case .ironSource: return "ironsource"
             case .facebook: return "facebook"
+            case .appLovin: return "appLovin"
             }
         }
 }

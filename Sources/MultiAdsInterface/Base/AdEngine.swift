@@ -103,6 +103,23 @@ public class AdEngine {
             }
             adCallback.onCloseEvent?()
             break
+        case "4.0":
+            let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.appLovin] != nil
+            if keyExists {
+                ServerConfig.sharedInstance.loadAdNetwork![.appLovin]?.loadAndShowInterAd(adModuleCallBacks: adCallback)
+                return
+            }
+            adCallback.onCloseEvent?()
+            break
+        case "4.1":
+            let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.appLovin] != nil
+            if keyExists {
+                ServerConfig.sharedInstance.loadAdNetwork![.appLovin]?.loadAndShowRewardAd(adModuleCallBacks: adCallback)
+                return
+            }
+            adCallback.onCloseEvent?()
+            break
+    
         default:
             adCallback.onCloseEvent?()
             break
@@ -189,6 +206,15 @@ public class AdEngine {
                         print("⚠️ [loadNativeAds] Google Native Key Exist")
 
                         return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.google]!.getNativeAd(height: 200, width: 200, from: from))
+                    }
+                    print("⚠️ [loadNativeAds] No Key Exist")
+                    return  AnyView(VStack {})
+                case 2:
+                    let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.appLovin] != nil
+                    if keyExists {
+                        print("⚠️ [loadNativeAds] AppLovin Native Key Exist")
+
+                        return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.appLovin]!.getNativeAd(height: 200, width: 200, from: from))
                     }
                     print("⚠️ [loadNativeAds] No Key Exist")
                     return  AnyView(VStack {})
