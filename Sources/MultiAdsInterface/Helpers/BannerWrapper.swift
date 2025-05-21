@@ -22,7 +22,7 @@ public struct BannerWrapper<Content: View> : View {
     public var body: some View {
         ZStack {
             content()
-                .padding(.bottom,40)
+               
             VStack {
                Spacer()
                 AdEngine.shared.loadShowBanner(from: from)
