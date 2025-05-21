@@ -12,10 +12,10 @@ import SwiftUI
 
 @available(iOS 13.0, *)
 public struct BannerWrapper<Content: View> : View {
-    let content: () -> Content
+    public let content: () -> Content
 
-    var from:String
-    init(from: String = "default",@ViewBuilder content: @escaping () -> Content) {
+    public var from:String
+    public init(from: String = "default",@ViewBuilder content: @escaping () -> Content) {
         self.from = from
         self.content = content
     }
