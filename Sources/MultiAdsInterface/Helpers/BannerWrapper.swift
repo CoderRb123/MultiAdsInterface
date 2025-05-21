@@ -10,7 +10,7 @@
 import SwiftUI
 
 
-@available(iOS 13.0, *)
+@available(iOS 14.0, *)
 public struct BannerWrapper<Content: View> : View {
     public let content: () -> Content
 
@@ -26,7 +26,7 @@ public struct BannerWrapper<Content: View> : View {
             VStack {
                Spacer()
                 AdEngine.shared.loadShowBanner(from: from)
-            }
+            }.ignoresSafeArea()
         }
     }
 }
