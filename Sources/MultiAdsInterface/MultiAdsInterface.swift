@@ -163,12 +163,7 @@ public class MultiAdsInterface {
     
     
     
-    public func showNative(from:String?)-> any View {
-        
-        return VStack {
-            
-        }
-    }
+    
     
     
     public func showAds(from:String,adCallback:AdModuleWithCallBacks) {

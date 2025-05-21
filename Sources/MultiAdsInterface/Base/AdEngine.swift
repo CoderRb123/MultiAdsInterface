@@ -244,7 +244,13 @@ public class AdEngine {
                 if keyExists {
                     print("⚠️ [loadNativeAds] Google Native Key Exist")
 
-                    return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.google]!.getBannerAd(from: from))
+                    return AnyView(
+                        HStack {
+                            Spacer()
+                            ServerConfig.sharedInstance.loadAdNetwork![.google]!.getBannerAd(from: from)
+                            Spacer()
+                        }
+                    )
                 }
                 print("⚠️ [loadNativeAds] No Key Exist")
                 return  AnyView(VStack {})
