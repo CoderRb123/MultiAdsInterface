@@ -25,7 +25,7 @@ public struct BannerWrapper<Content: View> : View {
             VStack {
                Spacer()
                 AdEngine.shared.loadShowBanner(from: from)
-            }
+            }.ignoresSafeArea()
         }
     }
 }
