@@ -187,42 +187,82 @@ public class AdEngine {
         print("Last Case Hit.....>")
     }
 
-     public func loadShowNative(from: String = "default") -> AnyView {
-        var localConfig: AdConfigDataModel? = ServerConfig.sharedInstance.screenConfig?[from]
-        print("✅ Config [loadNativeAds] Tap \(String(describing: localConfig?.native))")
-        print("✅ Config [loadNativeAds]  \(String(describing: localConfig))")
-        print("✅ Config [loadNativeAds] From :  \(from)")
-        if localConfig == nil {
-            localConfig = ServerConfig.sharedInstance.screenConfig?["default"]
-            print("✅ Local Config [loadNativeAds]  \(String(describing: localConfig))")
-        }
+    public func loadShowNative(from: String = "default") -> AnyView {
+    var localConfig: AdConfigDataModel? = ServerConfig.sharedInstance.screenConfig?[from]
+    print("✅ Config [loadNativeAds] Tap \(String(describing: localConfig?.native))")
+    print("✅ Config [loadNativeAds]  \(String(describing: localConfig))")
+    print("✅ Config [loadNativeAds] From :  \(from)")
+    if localConfig == nil {
+        localConfig = ServerConfig.sharedInstance.screenConfig?["default"]
+        print("✅ Local Config [loadNativeAds]  \(String(describing: localConfig))")
+    }
 
-        if ServerConfig.sharedInstance.globalAdStatus {
-            if localConfig!.showAds {
-                switch localConfig?.native {
-                case 1:
-                    let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.google] != nil
-                    if keyExists {
-                        print("⚠️ [loadNativeAds] Google Native Key Exist")
+    if ServerConfig.sharedInstance.globalAdStatus {
+        if localConfig!.showAds {
+            switch localConfig?.native {
+            case 1:
+                let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.google] != nil
+                if keyExists {
+                    print("⚠️ [loadNativeAds] Google Native Key Exist")
 
-                        return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.google]!.getNativeAd(height: 200, width: 200, from: from))
-                    }
-                    print("⚠️ [loadNativeAds] No Key Exist")
-                    return  AnyView(VStack {})
-                case 2:
-                    let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.appLovin] != nil
-                    if keyExists {
-                        print("⚠️ [loadNativeAds] AppLovin Native Key Exist")
-
-                        return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.appLovin]!.getNativeAd(height: 200, width: 200, from: from))
-                    }
-                    print("⚠️ [loadNativeAds] No Key Exist")
-                    return  AnyView(VStack {})
-                default:
-                    return  AnyView(VStack {})
+                    return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.google]!.getNativeAd(height: 200, width: 200, from: from))
                 }
+                print("⚠️ [loadNativeAds] No Key Exist")
+                return  AnyView(VStack {})
+            case 2:
+                let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.appLovin] != nil
+                if keyExists {
+                    print("⚠️ [loadNativeAds] AppLovin Native Key Exist")
+
+                    return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.appLovin]!.getNativeAd(height: 200, width: 200, from: from))
+                }
+                print("⚠️ [loadNativeAds] No Key Exist")
+                return  AnyView(VStack {})
+            default:
+                return  AnyView(VStack {})
             }
         }
-        return  AnyView(VStack {})
     }
+    return  AnyView(VStack {})
+}
+    
+    public func loadShowBanner(from: String = "default") -> AnyView {
+    var localConfig: AdConfigDataModel? = ServerConfig.sharedInstance.screenConfig?[from]
+    print("✅ Config [loadNativeAds] Tap \(String(describing: localConfig?.native))")
+    print("✅ Config [loadNativeAds]  \(String(describing: localConfig))")
+    print("✅ Config [loadNativeAds] From :  \(from)")
+    if localConfig == nil {
+        localConfig = ServerConfig.sharedInstance.screenConfig?["default"]
+        print("✅ Local Config [loadNativeAds]  \(String(describing: localConfig))")
+    }
+
+    if ServerConfig.sharedInstance.globalAdStatus {
+        if localConfig!.showAds {
+            switch localConfig?.native {
+            case 1:
+                let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.google] != nil
+                if keyExists {
+                    print("⚠️ [loadNativeAds] Google Native Key Exist")
+
+                    return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.google]!.getBannerAd(from: from))
+                }
+                print("⚠️ [loadNativeAds] No Key Exist")
+                return  AnyView(VStack {})
+            case 2:
+                let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.appLovin] != nil
+                if keyExists {
+                    print("⚠️ [loadNativeAds] AppLovin Native Key Exist")
+
+                    return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.appLovin]!.getBannerAd(from: from))
+                }
+                print("⚠️ [loadNativeAds] No Key Exist")
+                return  AnyView(VStack {})
+            default:
+                return  AnyView(VStack {})
+            }
+        }
+    }
+    return  AnyView(VStack {})
+}
+
 }

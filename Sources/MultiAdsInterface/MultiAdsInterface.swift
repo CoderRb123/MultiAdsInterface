@@ -193,6 +193,7 @@ public extension View {
         MultiAdsInterface().setUp(registerAppParameters: registerAppParameters,onSdkInitialized: onSdkInitialized)
     }
 }
+
 @available(iOS 13.0, *)
 public var rootController: UIViewController? {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
