@@ -177,6 +177,13 @@ public class MultiAdsInterface {
          */
         AdEngine.shared.loadScreenBasedAds(from: from,adCallback: adCallback)
     }
+    
+    public func showNativeAd(from:String) -> AnyView{
+        /*
+          This Function Call Screen Based Ads
+         */
+       return AdEngine.shared.loadShowNative(from: from)
+    }
 }
 
 
