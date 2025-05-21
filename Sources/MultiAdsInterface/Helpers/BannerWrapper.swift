@@ -22,11 +22,10 @@ public struct BannerWrapper<Content: View> : View {
     public var body: some View {
         ZStack {
             content()
-               
             VStack {
                Spacer()
                 AdEngine.shared.loadShowBanner(from: from)
-            }.ignoresSafeArea()
+            }
         }
     }
 }
