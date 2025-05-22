@@ -10,8 +10,19 @@ import SwiftUICore
 @available(iOS 13.0, *)
 public class AdEngine {
     static var shared: AdEngine = AdEngine()
+    
+    @State var failedCounter: Int = 0
 
     let commonValue: CommonChangables = CommonChangables.shared
+    
+    
+    public func loadFailed(from: String = "default", adCallback: AdModuleWithCallBacks) {
+        print("✅ Config [loadFailed]")
+        loadScreenBasedAds(from: from, adCallback: adCallback)
+    }
+    
+    
+  
 
     public func loadFromNumber(config: AdConfigDataModel, number: String, adCallback: AdModuleWithCallBacks) {
         print("⚠️ [loadFromNumber] : \(number)")
@@ -131,6 +142,13 @@ public class AdEngine {
         print("✅ Config [loadScreenBasedAds] Tap \(String(describing: localConfig?.tap))")
         print("✅ Config [loadScreenBasedAds]  \(String(describing: localConfig))")
         print("✅ Config [loadScreenBasedAds] From :  \(from)")
+        print("✅ Config [loadScreenBasedAds] Failed COunter :  \(failedCounter)")
+        
+        if failedCounter > 3 {
+            adCallback.onCloseEvent?()
+            print("✅ Force End Failed Count Acced")
+            return
+        }
         if localConfig == nil {
             localConfig = ServerConfig.sharedInstance.screenConfig?["default"]
             print("✅ Local Config [loadScreenBasedAds]  \(String(describing: localConfig))")
@@ -164,19 +182,33 @@ public class AdEngine {
                         CommonChangables.shared.routeIndex[from] = i
                     }
                 }
-                loadFromNumber(config: localConfig!, number: localConfig!.tap![i].description, adCallback: AdModuleWithCallBacks(
+                
+                let callback = AdModuleWithCallBacks(
                     onCloseEvent: {
                         print("On Ad Close Event Fired 🔥")
+                        self.failedCounter = 0
                         MultiAdsInterface.shared.commonState.adLoader = false
                         adCallback.onCloseEvent?()
                     },
-                    onFailed: adCallback.onFailed,
+                    onFailed: {
+                        print("On Fail Hit Event Fired 🔥")
+                        self.failedCounter = self.failedCounter + 1
+                        self.loadFailed(from: from, adCallback: adCallback)
+                    },
                     onAdLoaded: adCallback.onAdLoaded,
                     onAdStarted: adCallback.onAdStarted,
                     onRewardSkip: adCallback.onAdLoaded,
-                    onLoadFailed: adCallback.onLoadFailed
+                    onLoadFailed: {
+                        print("On Load Fail Hit Event Fired 🔥")
+                        self.failedCounter = self.failedCounter + 1
+                        self.loadFailed(from: from, adCallback: adCallback)
+                    }
 
-                ))
+                )
+                
+                
+                
+                loadFromNumber(config: localConfig!, number: localConfig!.tap![i].description, adCallback: callback)
                 return
             }
             adCallback.onCloseEvent?()
