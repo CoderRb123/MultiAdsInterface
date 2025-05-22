@@ -26,8 +26,7 @@ public struct AppAdHelper<Content: View>: View {
                 if(!notFirstTime){
                     
                     MultiAdsInterface().setUp(
-                        registerAppParameters: RegisterAppParameters(
-                            
+                        registerAppParameters: RegisterAppParameters(     
                             appVersion:registerAppParameters.appVersion,
                             rewardType:registerAppParameters.rewardType,
                             apiKey: registerAppParameters.apiKey,

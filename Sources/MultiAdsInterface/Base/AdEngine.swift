@@ -228,21 +228,21 @@ public class AdEngine {
     
     public func loadShowBanner(from: String = "default") -> AnyView {
     var localConfig: AdConfigDataModel? = ServerConfig.sharedInstance.screenConfig?[from]
-    print("✅ Config [loadNativeAds] Tap \(String(describing: localConfig?.native))")
-    print("✅ Config [loadNativeAds]  \(String(describing: localConfig))")
-    print("✅ Config [loadNativeAds] From :  \(from)")
+    print("✅ Config [loadBannerAds] Tap \(String(describing: localConfig?.native))")
+    print("✅ Config [loadBannerAds]  \(String(describing: localConfig))")
+    print("✅ Config [loadBannerAds] From :  \(from)")
     if localConfig == nil {
         localConfig = ServerConfig.sharedInstance.screenConfig?["default"]
-        print("✅ Local Config [loadNativeAds]  \(String(describing: localConfig))")
+        print("✅ Local Config [loadBannerAds]  \(String(describing: localConfig))")
     }
 
     if ServerConfig.sharedInstance.globalAdStatus {
         if localConfig!.showAds {
-            switch localConfig?.native {
+            switch localConfig?.banner {
             case 1:
                 let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.google] != nil
                 if keyExists {
-                    print("⚠️ [loadNativeAds] Google Native Key Exist")
+                    print("⚠️ [loadBannerAds] Google Native Key Exist")
 
                     return AnyView(
                         HStack {
@@ -252,16 +252,16 @@ public class AdEngine {
                         }
                     )
                 }
-                print("⚠️ [loadNativeAds] No Key Exist")
+                print("⚠️ [loadBannerAds] No Key Exist")
                 return  AnyView(VStack {})
             case 2:
                 let keyExists = ServerConfig.sharedInstance.loadAdNetwork?[.appLovin] != nil
                 if keyExists {
-                    print("⚠️ [loadNativeAds] AppLovin Native Key Exist")
+                    print("⚠️ [loadBannerAds] AppLovin Native Key Exist")
 
                     return AnyView(ServerConfig.sharedInstance.loadAdNetwork![.appLovin]!.getBannerAd(from: from))
                 }
-                print("⚠️ [loadNativeAds] No Key Exist")
+                print("⚠️ [loadBannerAds] No Key Exist")
                 return  AnyView(VStack {})
             default:
                 return  AnyView(VStack {})
