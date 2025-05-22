@@ -144,11 +144,11 @@ public class AdEngine {
         print("✅ Config [loadScreenBasedAds] From :  \(from)")
         print("✅ Config [loadScreenBasedAds] Failed COunter :  \(failedCounter)")
         
-//        if failedCounter > 3 {
-//            adCallback.onCloseEvent?()
-//            print("✅ Force End Failed Count Acced")
-//            return
-//        }
+        if failedCounter > 3 {
+            adCallback.onCloseEvent?()
+            print("✅ Force End Failed Count Acced")
+            return
+        }
         
         
         
@@ -204,7 +204,39 @@ public class AdEngine {
 
                 )
                 if(number != "-1"){
-                    loadFromNumber(config: localConfig!, number: number, adCallback: callback)
+                    let numberCallback = AdModuleWithCallBacks(
+                        onCloseEvent: {
+                            print("On Ad Close Number Callback  Event Fired 🔥")
+                            self.failedCounter = 0
+                            MultiAdsInterface.shared.commonState.adLoader = false
+                            adCallback.onCloseEvent?()
+                        },
+                        onFailed: {
+                            let index : String? = localConfig!.failed?[number]
+                            if(index == nil){
+                                print("nil Index Number Callback  Callback 🔥")
+                                adCallback.onCloseEvent?()
+                                return
+                            }
+                            print("On Fail Number Callback Hit Event Fired 🔥")
+                            self.loadFailed(from: from, adCallback: adCallback,number: index!)
+                        },
+                        onAdLoaded: adCallback.onAdLoaded,
+                        onAdStarted: adCallback.onAdStarted,
+                        onRewardSkip: adCallback.onAdLoaded,
+                        onLoadFailed: {
+                            let index : String? = localConfig!.failed?[number]
+                            if(index == nil){
+                                print("nil Index Number Callback  Callback 🔥")
+                                adCallback.onCloseEvent?()
+                                return
+                            }
+                            print("On Load Fail Number Callback  Hit Event Fired 🔥")
+                            self.failedCounter = self.failedCounter + 1
+                            self.loadFailed(from: from, adCallback: adCallback,number: index!)                    }
+
+                    )
+                    loadFromNumber(config: localConfig!, number: number, adCallback: numberCallback)
                    return
                 }
                 if CommonChangables.shared.routeIndex[from] == nil {
