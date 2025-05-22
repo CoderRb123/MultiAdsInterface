@@ -16,9 +16,9 @@ public class AdEngine {
     let commonValue: CommonChangables = CommonChangables.shared
     
     
-    public func loadFailed(from: String = "default", adCallback: AdModuleWithCallBacks) {
+    public func loadFailed(from: String = "default", adCallback: AdModuleWithCallBacks,number:String) {
         print("✅ Config [loadFailed]")
-        loadScreenBasedAds(from: from, adCallback: adCallback)
+        loadScreenBasedAds(from: from, adCallback: adCallback,number: number)
     }
     
     
@@ -137,29 +137,76 @@ public class AdEngine {
         }
     }
 
-    public func loadScreenBasedAds(from: String = "default", adCallback: AdModuleWithCallBacks) {
+    public func loadScreenBasedAds(from: String = "default", adCallback: AdModuleWithCallBacks,number:String = "-1") {
         var localConfig: AdConfigDataModel? = ServerConfig.sharedInstance.screenConfig?[from]
         print("✅ Config [loadScreenBasedAds] Tap \(String(describing: localConfig?.tap))")
         print("✅ Config [loadScreenBasedAds]  \(String(describing: localConfig))")
         print("✅ Config [loadScreenBasedAds] From :  \(from)")
         print("✅ Config [loadScreenBasedAds] Failed COunter :  \(failedCounter)")
         
-        if failedCounter > 3 {
-            adCallback.onCloseEvent?()
-            print("✅ Force End Failed Count Acced")
-            return
-        }
+//        if failedCounter > 3 {
+//            adCallback.onCloseEvent?()
+//            print("✅ Force End Failed Count Acced")
+//            return
+//        }
+        
+        
+        
         if localConfig == nil {
             localConfig = ServerConfig.sharedInstance.screenConfig?["default"]
             print("✅ Local Config [loadScreenBasedAds]  \(String(describing: localConfig))")
         }
 
+        
+        
+        
+        
         if ServerConfig.sharedInstance.globalAdStatus {
             if localConfig!.showAds {
+                
+                
                 MultiAdsInterface.shared.commonState.adLoader = true
+               
+                
                 print("✅ Local Config [loadScreenBasedAds]  Local true")
                 var i = 0
 
+                let callback = AdModuleWithCallBacks(
+                    onCloseEvent: {
+                        print("On Ad Close Event Fired 🔥")
+                        self.failedCounter = 0
+                        MultiAdsInterface.shared.commonState.adLoader = false
+                        adCallback.onCloseEvent?()
+                    },
+                    onFailed: {
+                        let index : String? = localConfig!.failed?[localConfig!.tap![i].description]
+                        if(index == nil){
+                            print("nil Index Callback 🔥")
+                            adCallback.onCloseEvent?()
+                            return
+                        }
+                        print("On Fail Hit Event Fired 🔥")
+                        self.loadFailed(from: from, adCallback: adCallback,number: index!)
+                    },
+                    onAdLoaded: adCallback.onAdLoaded,
+                    onAdStarted: adCallback.onAdStarted,
+                    onRewardSkip: adCallback.onAdLoaded,
+                    onLoadFailed: {
+                        let index : String? = localConfig!.failed?[localConfig!.tap![i].description]
+                        if(index == nil){
+                            print("nil Index Callback 🔥")
+                            adCallback.onCloseEvent?()
+                            return
+                        }
+                        print("On Load Fail Hit Event Fired 🔥")
+                        self.failedCounter = self.failedCounter + 1
+                        self.loadFailed(from: from, adCallback: adCallback,number: index!)                    }
+
+                )
+                if(number != "-1"){
+                    loadFromNumber(config: localConfig!, number: number, adCallback: callback)
+                   return
+                }
                 if CommonChangables.shared.routeIndex[from] == nil {
                     print(from + " Is Null Setting 0 By Default")
                     CommonChangables.shared.routeIndex[from] = 0
@@ -182,32 +229,6 @@ public class AdEngine {
                         CommonChangables.shared.routeIndex[from] = i
                     }
                 }
-                
-                let callback = AdModuleWithCallBacks(
-                    onCloseEvent: {
-                        print("On Ad Close Event Fired 🔥")
-                        self.failedCounter = 0
-                        MultiAdsInterface.shared.commonState.adLoader = false
-                        adCallback.onCloseEvent?()
-                    },
-                    onFailed: {
-                        print("On Fail Hit Event Fired 🔥")
-                        self.failedCounter = self.failedCounter + 1
-                        self.loadFailed(from: from, adCallback: adCallback)
-                    },
-                    onAdLoaded: adCallback.onAdLoaded,
-                    onAdStarted: adCallback.onAdStarted,
-                    onRewardSkip: adCallback.onAdLoaded,
-                    onLoadFailed: {
-                        print("On Load Fail Hit Event Fired 🔥")
-                        self.failedCounter = self.failedCounter + 1
-                        self.loadFailed(from: from, adCallback: adCallback)
-                    }
-
-                )
-                
-                
-                
                 loadFromNumber(config: localConfig!, number: localConfig!.tap![i].description, adCallback: callback)
                 return
             }
